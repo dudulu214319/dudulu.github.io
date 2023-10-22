@@ -192,7 +192,11 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="二叉树的前中后序遍历的迭代实现"><a href="#二叉树的前中后序遍历的迭代实现" class="headerlink" title="二叉树的前中后序遍历的迭代实现"></a>二叉树的前中后序遍历的迭代实现</h1><h2 id="前序与后序遍历的迭代实现"><a href="#前序与后序遍历的迭代实现" class="headerlink" title="前序与后序遍历的迭代实现"></a>前序与后序遍历的迭代实现</h2><p><img src="/2023/10/18/Tree-Traversal/1.jpg" alt="img"></p>
+        <h1 id="二叉树的前中后序遍历（DFS）的迭代实现"><a href="#二叉树的前中后序遍历（DFS）的迭代实现" class="headerlink" title="二叉树的前中后序遍历（DFS）的迭代实现"></a>二叉树的前中后序遍历（DFS）的迭代实现</h1><h2 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h2><p>树的遍历方式总体分为两类：<strong>深度优先搜索（DFS）</strong>、<strong>广度优先搜索（BFS）</strong></p>
+<p>其实这两种方式主要是图的遍历方式，但是树可以被抽象为简单的图，所以这两种方式也可以作为树的遍历方式。</p>
+<p>常见的DFS：先序遍历、中序遍历、后序遍历。</p>
+<p>常见的BFS：层序遍历（按层遍历）。</p>
+<h2 id="前序与后序遍历的迭代实现"><a href="#前序与后序遍历的迭代实现" class="headerlink" title="前序与后序遍历的迭代实现"></a>前序与后序遍历的迭代实现</h2><p><img src="/2023/10/18/Tree-Traversal/1.jpg" alt="img"></p>
 <h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
 <li>使用一个记忆栈用于节点回溯</li>
 <li>top节点弹出时，代表该节点及其左子树已经访问完毕</li>
@@ -245,7 +249,36 @@ public:
     &#125;
 &#125;;
 </code></pre>
-<h2 id="后序遍历的迭代实现"><a href="#后序遍历的迭代实现" class="headerlink" title="后序遍历的迭代实现"></a>后序遍历的迭代实现</h2>
+<h2 id="后序遍历的迭代实现"><a href="#后序遍历的迭代实现" class="headerlink" title="后序遍历的迭代实现"></a>后序遍历的迭代实现</h2><h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>反转法实现：左右上-&gt;上右左，改装版的前序遍历，然后reverse</li>
+</ul>
+<p><img src="/2023/10/18/Tree-Traversal/2.jpg" alt="img"></p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
+public:
+    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;
+        vector&lt;int&gt; res;
+        if(!root) return res;
+
+        stack&lt;TreeNode*&gt; stk;
+        TreeNode* node = root;
+        while (!stk.empty() || node != nullptr) //终止条件
+        &#123;
+            while (node != nullptr)
+            &#123;   
+                res.push_back(node-&gt;val);
+                stk.push(node);
+                node = node-&gt;right;
+            &#125;
+            node = stk.top();
+            stk.pop();
+            node = node-&gt;left;
+        &#125;
+        reverse(res.begin(), res.end());
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+
     </div>
     
     

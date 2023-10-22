@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: letter | 嘟嘟噜の牧场</title>
+    <title>Tree_DFS | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -36,6 +36,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,72 +154,96 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>Tree_DFS</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/10/21
+        </span>
         
-        
-        
-        <span>
-            <a href="/tags/%E6%A0%91/" style="background: #00bcd4">
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                树
+                算法
             </a>
         </span>
         
         
-        
-        <span>
-            <a href="/tags/letter/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                letter
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
+            </span>
+            
         </span>
-        
-        
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/17</div>
-            <a href="/2023/10/17/Letter-0/">
-                <h3>给高三给学弟学妹们的一封信</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E6%9D%82%E8%B0%88/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        杂谈
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/letter/" style="color: #00bcd4">letter</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h1 id="二叉树DFS的应用"><a href="#二叉树DFS的应用" class="headerlink" title="二叉树DFS的应用"></a>二叉树DFS的应用</h1><h2 id="相同的树-对称的树"><a href="#相同的树-对称的树" class="headerlink" title="相同的树&#x2F;对称的树"></a>相同的树&#x2F;对称的树</h2><p><img src="/2023/10/21/Tree-DFS/1.jpg" alt="img"></p>
+<h3 id="递归关键点"><a href="#递归关键点" class="headerlink" title="递归关键点"></a>递归关键点</h3><ul>
+<li>入口</li>
+<li>出口</li>
+<li>如何借助分解<strong>一步</strong>将大问题分解成<strong>相同</strong>性质的子问题</li>
+</ul>
+<h3 id="注意，对一棵树来说叫对称，isf函数判断的是两棵树是否能对折"><a href="#注意，对一棵树来说叫对称，isf函数判断的是两棵树是否能对折" class="headerlink" title="注意，对一棵树来说叫对称，isf函数判断的是两棵树是否能对折"></a>注意，对一棵树来说叫<em>对称</em>，isf函数判断的是两棵树是否能<em>对折</em></h3><pre><code class="c++">class Solution &#123;
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) &#123;
+        if (!p &amp;&amp; !q)
+        &#123;
+            return true;
+        &#125;else if (!p || !q)
+        &#123;
+            return false;
+        &#125;else if (p-&gt;val != q-&gt;val)
+        &#123;
+            return false;
+        &#125;else&#123;
+            return isSameTree(p-&gt;left, q-&gt;left) &amp;&amp; isSameTree(p-&gt;right, q-&gt;right);
+        &#125;  
+    &#125;
+&#125;;
+</code></pre>
+<pre><code class="C++">class Solution &#123;
+public:
+    bool isf(TreeNode* p, TreeNode* q)&#123;
+        if(!p &amp;&amp; !q) return true;
+        else if (!p || !q)
+        &#123;
+            return false;
+        &#125;else if (p-&gt;val != q-&gt;val)
+        &#123;
+            return false;
+        &#125;else &#123;
+            return isf(p-&gt;left, q-&gt;right) &amp;&amp; isf(p-&gt;right, q-&gt;left);
+        &#125;
+    &#125;
+
+    bool isSymmetric(TreeNode* root) &#123;
+        return isf(root-&gt;left, root-&gt;right);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id><a href="#" class="headerlink" title></a></h2>
     </div>
+    
+    
+    
+    
+    
+    
     
 </div>
 
@@ -247,6 +275,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
