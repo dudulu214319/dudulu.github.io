@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
+                <a href="/tags/%E6%A0%91/" style="color: #03a9f4">树</a>
             </span>
             
         </span>
@@ -211,7 +211,7 @@
         TreeNode* node = root;
         while (node != nullptr || !stk.empty()) //先驱节点为空且记忆栈为空，说明整棵树访问完毕
         &#123;
-            while (node != nullptr)
+            while (node != nullptr) //左探
             &#123;
                 stk.push(node);
                 node = node-&gt;left;
@@ -219,7 +219,7 @@
             node = stk.top();
             res.push_back(node-&gt;val);
             stk.pop(); // 弹出说明top节点及其左子树已经访问完成，接下来访问右子树
-            node = node-&gt;right;
+            node = node-&gt;right; //折右
         &#125;
         return res;
     &#125;
