@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #ff7d73">树</a>
+                <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
             </span>
             
         </span>
@@ -233,6 +233,78 @@ public:
 
     bool isSymmetric(TreeNode* root) &#123;
         return isf(root-&gt;left, root-&gt;right);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="合并二叉树"><a href="#合并二叉树" class="headerlink" title="合并二叉树"></a>合并二叉树</h2><p><img src="/2023/10/21/Tree-DFS/3.png" alt="image-20231025174723589"></p>
+<h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>递归问题有时候可以先整体思考，<strong>一步</strong>设计为处理根节点，然后两边左子树合并左子树，右子树合并右子树，很自然的就是一个递归。</li>
+<li>处理两边根节点是否为空，直接俩if完事。。。</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) &#123;
+        if(!root1) return root2;
+        if(!root2) return root1;
+        root1-&gt;val += root2-&gt;val;
+        root1-&gt;left = mergeTrees(root1-&gt;left, root2-&gt;left);
+        root1-&gt;right = mergeTrees(root1-&gt;right, root2-&gt;right);
+        return root1;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="输出树的所有路径"><a href="#输出树的所有路径" class="headerlink" title="输出树的所有路径"></a>输出树的所有路径</h2><p><img src="/2023/10/21/Tree-DFS/4.png" alt="image-20231025174749289"></p>
+<ul>
+<li>很容易用递归+DFS解决，先处理一下根节点，然后分别接上左树与右树的路径，都保存下来即可</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;
+        vector&lt;string&gt; ans;
+        if(!root) return ans;
+        string start = to_string(root-&gt;val);
+        if(root-&gt;left) &#123;
+            for (string s : binaryTreePaths(root-&gt;left)) &#123;
+                ans.push_back(start + &quot;-&gt;&quot; + s);
+            &#125;
+        &#125;
+        if(root-&gt;right) &#123;
+            for (string s : binaryTreePaths(root-&gt;right)) &#123;
+                ans.push_back(start + &quot;-&gt;&quot; + s);
+            &#125;
+        &#125;
+        if(!root-&gt;left &amp;&amp; !root-&gt;right) ans.push_back(start);
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="判断树的路经总和有没有目标值"><a href="#判断树的路经总和有没有目标值" class="headerlink" title="判断树的路经总和有没有目标值"></a>判断树的路经总和有没有目标值</h2><p><img src="/2023/10/21/Tree-DFS/5.png" alt="image-20231025174825944"></p>
+<ul>
+<li>递归，目标值不断减去根节点的值即可</li>
+<li>注意只有叶子节点才能返回true</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) &#123;
+        if(!root) return false;
+        if(root-&gt;val == targetSum &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) return true;
+        return hasPathSum(root-&gt;left, targetSum-root-&gt;val) || hasPathSum(root-&gt;right, targetSum-root-&gt;val);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="翻转二叉树"><a href="#翻转二叉树" class="headerlink" title="翻转二叉树"></a>翻转二叉树</h2><ul>
+<li>直接递归解决即可</li>
+</ul>
+<p><img src="/2023/10/21/Tree-DFS/2.png" alt="image-20231025174347149"></p>
+<pre><code class="C++">class Solution &#123;
+public:
+    TreeNode* invertTree(TreeNode* root) &#123;
+        if(!root) return nullptr;
+        TreeNode* r = invertTree(root-&gt;right);
+        TreeNode* l = invertTree(root-&gt;left);
+        root-&gt;left = r;
+        root-&gt;right = l;
+        return root;
     &#125;
 &#125;;
 </code></pre>
