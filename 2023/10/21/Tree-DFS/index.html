@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
+                <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
             </span>
             
         </span>
@@ -281,7 +281,7 @@ public:
 <h2 id="判断树的路经总和有没有目标值"><a href="#判断树的路经总和有没有目标值" class="headerlink" title="判断树的路经总和有没有目标值"></a>判断树的路经总和有没有目标值</h2><p><img src="/2023/10/21/Tree-DFS/5.png" alt="image-20231025174825944"></p>
 <ul>
 <li>递归，目标值不断减去根节点的值即可</li>
-<li>注意只有叶子节点才能返回true</li>
+<li>注意只有<strong>叶子节点</strong>才能返回true，半道上遇到<code>val == targetSum</code>的情况也只能是减到0，后面继续。</li>
 </ul>
 <pre><code class="c++">class Solution &#123;
 public:
@@ -293,7 +293,7 @@ public:
 &#125;;
 </code></pre>
 <h2 id="翻转二叉树"><a href="#翻转二叉树" class="headerlink" title="翻转二叉树"></a>翻转二叉树</h2><ul>
-<li>直接递归解决即可</li>
+<li>直接递归解决即可，一步设计为根节点不动，左子树反转后连到根节点右边，右子树反转后连到根节点左边，以此分解成相同性质的子问题。</li>
 </ul>
 <p><img src="/2023/10/21/Tree-DFS/2.png" alt="image-20231025174347149"></p>
 <pre><code class="C++">class Solution &#123;
@@ -305,6 +305,75 @@ public:
         root-&gt;left = r;
         root-&gt;right = l;
         return root;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="二叉树的深度问题"><a href="#二叉树的深度问题" class="headerlink" title="二叉树的深度问题"></a>二叉树的深度问题</h2><p><img src="/2023/10/21/Tree-DFS/6.png" alt="image-20231026170934002"></p>
+<ul>
+<li>比较简单，递归出口就是叶子节点的空子节点，一步就是加一层，然后左右子树取max就行。</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    int maxDepth(TreeNode* root) &#123;
+        if(!root) return 0;
+        return std::max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;
+    &#125;
+&#125;;
+</code></pre>
+<p><img src="/2023/10/21/Tree-DFS/7.png" alt="image-20231026171112809"></p>
+<p><img src="/2023/10/21/Tree-DFS/8.png" alt="image.png"></p>
+<ul>
+<li>这个题和之前有一点变化，递归终点不再是<strong>叶子节点的空子节点</strong>，而是<strong>叶子节点</strong>自己。所以<strong>一步</strong>要设计的大一点，需要判断左右子树的空情况。</li>
+<li><strong>递归终点</strong>的设计与<strong>一步</strong>也是息息相关的。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int minDepth(TreeNode* root) &#123;
+        if(!root) return 0;
+        if(!root-&gt;left &amp;&amp; !root-&gt;right) return 1;
+        if(!root-&gt;left) return minDepth(root-&gt;right) + 1;
+        if(!root-&gt;right) return minDepth(root-&gt;left) + 1;
+        return std::min(minDepth(root-&gt;left), minDepth(root-&gt;right)) + 1;
+    &#125;
+&#125;;
+</code></pre>
+<p><img src="/2023/10/21/Tree-DFS/9.png" alt="image-20231026172204579"></p>
+<ul>
+<li>题倒不难，但是<strong>用max函数赋值的时间效率比作if判断要高</strong>，影响运行时长。。。以后取最大值还是优先用max函数。</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    int maxDepth(Node* root) &#123;
+        if(!root) return 0;
+        int depth = 0;
+        vector&lt;Node*&gt; c = root-&gt;children;
+        for(auto node : c)&#123;
+            // if(maxDepth(node) &gt; depth) depth=maxDepth(node);
+            depth = max(maxDepth(node), depth);
+        &#125;
+        return depth + 1;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="判断平衡树"><a href="#判断平衡树" class="headerlink" title="判断平衡树"></a>判断平衡树</h2><p><img src="/2023/10/21/Tree-DFS/10.png" alt="image-20231027173002688"></p>
+<p><img src="/2023/10/21/Tree-DFS/11.jpg" alt="img"></p>
+<h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>如图所示，关键在于意识到<strong>对于树是否平衡的判断可以在计算树的高（深）度的递归过程中顺带实现。</strong></li>
+</ul>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
+public:
+    int height(TreeNode* root) &#123;
+        if(!root) return 0;
+        int left_h = height(root-&gt;left);
+        int right_h = height(root-&gt;right);
+        if(left_h == -1 || right_h == -1 || abs(left_h-right_h) &gt; 1)&#123;
+            return -1;
+        &#125;
+        return std::max(left_h, right_h) + 1;
+    &#125;
+
+    bool isBalanced(TreeNode* root) &#123;
+        return height(root) &gt; -1 ? true : false;
     &#125;
 &#125;;
 </code></pre>
