@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>二叉树的前中后序遍历 | 嘟嘟噜の牧场</title>
+    <title>二分查找与中序遍历与搜索树 | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -156,14 +156,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>二叉树的前中后序遍历</h1>
+        <h1>二分查找与中序遍历与搜索树</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/10/18
+            2023/10/31
         </span>
         
         <span class="category">
@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #03a9f4">树</a>
+                <a href="/tags/%E5%88%86%E6%B2%BB/" style="color: #03a9f4">分治</a>
             </span>
             
         </span>
@@ -192,89 +192,85 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="二叉树的前中后序遍历（DFS）的迭代实现"><a href="#二叉树的前中后序遍历（DFS）的迭代实现" class="headerlink" title="二叉树的前中后序遍历（DFS）的迭代实现"></a>二叉树的前中后序遍历（DFS）的迭代实现</h1><h2 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h2><p>树的遍历方式总体分为两类：<strong>深度优先搜索（DFS）</strong>、<strong>广度优先搜索（BFS）</strong></p>
-<p>其实这两种方式主要是图的遍历方式，但是树可以被抽象为简单的图，所以这两种方式也可以作为树的遍历方式。</p>
-<p>常见的DFS：先序遍历、中序遍历、后序遍历。</p>
-<p>常见的BFS：层序遍历（按层遍历）。</p>
-<h2 id="前序与后序遍历的迭代实现"><a href="#前序与后序遍历的迭代实现" class="headerlink" title="前序与后序遍历的迭代实现"></a>前序与后序遍历的迭代实现</h2><p><img src="/2023/10/18/Tree-Traversal/1.jpg" alt="img"></p>
+        <h1 id="二分查找与中序遍历与搜索树"><a href="#二分查找与中序遍历与搜索树" class="headerlink" title="二分查找与中序遍历与搜索树"></a>二分查找与中序遍历与搜索树</h1><h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/1.png" alt="image-20231031235156177"></p>
 <h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
-<li>使用一个记忆栈用于节点回溯</li>
-<li>top节点弹出时，代表该节点及其左子树已经访问完毕</li>
-<li>前中序遍历的区别仅在于对于node值的添加位于<strong>回溯前</strong>还是<strong>回溯后</strong></li>
+<li>背过即可，有个移位操作</li>
+<li>两种实现，递归实现注意自己设计好递归函数的参数，形成的是<strong>递归链</strong>，不再是<strong>递归树</strong></li>
+<li>注意low和high只隔一位或者重合的情况讨论，有时会影响一些边界细节</li>
 </ul>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">public:
-    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;
-        vector&lt;int&gt; res;
-        if(!root) return res;
-
-        stack&lt;TreeNode*&gt; stk;
-        TreeNode* node = root;
-        while (node != nullptr || !stk.empty()) //先驱节点为空且记忆栈为空，说明整棵树访问完毕
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) &#123;
+        int low = 0;
+        int high = nums.size()-1;
+        int mid;
+        while (low &lt;= high)
         &#123;
-            while (node != nullptr) //左探
-            &#123;
-                stk.push(node);
-                node = node-&gt;left;
+            mid = low + ((high-low)&gt;&gt;1);
+            if(nums[mid] == target) &#123;
+                return mid;
             &#125;
-            node = stk.top();
-            res.push_back(node-&gt;val);
-            stk.pop(); // 弹出说明top节点及其左子树已经访问完成，接下来访问右子树
-            node = node-&gt;right; //折右
+            else if (nums[mid] &lt; target)
+            &#123;
+                low = mid + 1;
+            &#125;else &#123;
+                high = mid - 1;
+            &#125;
         &#125;
-        return res;
+        return -1;
+    &#125;
+&#125;;
+
+// 2.递归
+class Solution &#123;
+public:
+    int binsearch(vector&lt;int&gt;&amp; nums, int low, int high, int target) &#123;
+        if(low &lt;= high) &#123;
+            int mid = low + ((high-low)&gt;&gt;1);
+            if(nums[mid] == target) &#123;
+                return mid;
+            &#125;
+            else if (nums[mid] &lt; target)
+            &#123;
+                return binsearch(nums, mid + 1, high, target);
+            &#125;else &#123;
+                return binsearch(nums, low, mid - 1, target);
+            &#125;
+        &#125;
+        return -1;
+    &#125;
+
+    int search(vector&lt;int&gt;&amp; nums, int target) &#123;
+        return binsearch(nums, 0, nums.size()-1, target);
     &#125;
 &#125;;
 </code></pre>
+<h2 id="山脉数组的峰顶索引"><a href="#山脉数组的峰顶索引" class="headerlink" title="山脉数组的峰顶索引"></a>山脉数组的峰顶索引</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/2.png" alt="image-20231101000102215"></p>
+<h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>意识到这是一个查找问题，<strong>从数组里找到满足某一性质的元素</strong>，可以用二分思想。</li>
+<li>注意low和high只隔一位或者重合的情况讨论，会有mid&#x3D;0或者mid&#x3D;size()-1的边界情况，所以可以直接让low从1开始，high从size-2开始。</li>
+</ul>
 <pre><code class="C++">class Solution &#123;
 public:
-    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;
-        vector&lt;int&gt; res;
-        if(!root) return res;
-
-        stack&lt;TreeNode*&gt; stk;
-        TreeNode* node = root;
-        while (node != nullptr || !stk.empty()) //先驱节点为空且记忆栈为空，说明整棵树访问完毕
+    int peakIndexInMountainArray(vector&lt;int&gt;&amp; arr) &#123;
+        int low = 1;
+        int high = arr.size()-2;
+        int mid;
+        while (low &lt;= high)
         &#123;
-            while (node != nullptr)
+            mid = low + ((high-low)&gt;&gt;1);
+            // if(mid == 0) return mid + 1; //一种特殊情况，顶峰出在第二个元素位置
+            if(arr[mid-1] &lt; arr[mid] &amp;&amp; arr[mid] &lt; arr[mid+1]) &#123;
+                low = mid + 1;
+            &#125;else if (arr[mid-1] &gt; arr[mid] &amp;&amp; arr[mid] &gt; arr[mid+1])
             &#123;
-                stk.push(node);
-                res.push_back(node-&gt;val);
-                node = node-&gt;left;
+                high = mid - 1;
+            &#125;else&#123;
+                return mid;
             &#125;
-            node = stk.top();
-            stk.pop(); // 弹出说明top节点及其左子树已经访问完成，接下来访问右子树
-            node = node-&gt;right;
+            
         &#125;
-        return res;         
-    &#125;
-&#125;;
-</code></pre>
-<h2 id="后序遍历的迭代实现"><a href="#后序遍历的迭代实现" class="headerlink" title="后序遍历的迭代实现"></a>后序遍历的迭代实现</h2><h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
-<li>反转法实现：左右上-&gt;上右左，改装版的前序遍历，然后reverse</li>
-</ul>
-<p><img src="/2023/10/18/Tree-Traversal/2.jpg" alt="img"></p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
-public:
-    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;
-        vector&lt;int&gt; res;
-        if(!root) return res;
-
-        stack&lt;TreeNode*&gt; stk;
-        TreeNode* node = root;
-        while (!stk.empty() || node != nullptr) //终止条件
-        &#123;
-            while (node != nullptr)
-            &#123;   
-                res.push_back(node-&gt;val);
-                stk.push(node);
-                node = node-&gt;right;
-            &#125;
-            node = stk.top();
-            stk.pop();
-            node = node-&gt;left;
-        &#125;
-        reverse(res.begin(), res.end());
-        return res;
+        return -1;
     &#125;
 &#125;;
 </code></pre>
