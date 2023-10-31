@@ -6,7 +6,7 @@
     <title>嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="IT 算法 二次元" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="icon" href="/images/avatar.jpg" />
     <link rel="preconnect" href="https://cdn.staticfile.org" />
@@ -162,7 +162,7 @@
         <span class="info">
             <div class="wrap">
                 <h1>嘟嘟噜の牧场</h1>
-                <h3></h3>
+                <h3><span class="text"></span></h3>
                 <h5></h5>
             </div>
         </span>
@@ -312,7 +312,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%91/" style="color: #ff7d73">树</a>
+            <a href="/tags/%E6%A0%91/" style="color: #03a9f4">树</a>
         </span>
         
     </div>
@@ -361,7 +361,7 @@
         
         <span class="tag">
             
-            <a href="/tags/letter/" style="color: #ffa2c4">letter</a>
+            <a href="/tags/letter/" style="color: #ff7d73">letter</a>
         </span>
         
     </div>
@@ -443,6 +443,39 @@
     </div>
     
 </div>
+<script>
+	var text = document.querySelector('.text');
+	const txt  =["Here's a dudulu..."]; 
+	var index=0;
+	var xiaBiao= 0;
+	var huan = true;
+	setInterval(function(){
+		if(huan){             
+			text.textContent = txt[xiaBiao].slice(0,++index);
+		}
+		else{
+			text.textContent = txt[xiaBiao].slice(0,index--);
+		}
+		
+		if(index==txt[xiaBiao].length+3)
+		{
+			huan = false;
+		}
+		else if(index<0)
+		{   
+			index = 0;
+			huan = true;
+			xiaBiao++;
+			if(xiaBiao>=txt.length)
+			{   
+				xiaBiao=0; 
+			}
+		}
+	},200)
+</script>
+
+
+
 
             <footer id="footer">
     <div id="footer-wrap">

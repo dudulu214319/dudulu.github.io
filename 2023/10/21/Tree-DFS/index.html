@@ -6,7 +6,7 @@
     <title>二叉树DFS的应用 | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="IT 算法 二次元" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="icon" href="/images/avatar.jpg" />
     <link rel="preconnect" href="https://cdn.staticfile.org" />
@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
+                <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
             </span>
             
         </span>
@@ -238,7 +238,7 @@ public:
 </code></pre>
 <h2 id="合并二叉树"><a href="#合并二叉树" class="headerlink" title="合并二叉树"></a>合并二叉树</h2><p><img src="/2023/10/21/Tree-DFS/3.png" alt="image-20231025174723589"></p>
 <h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
-<li>递归问题有时候可以先整体思考，<strong>一步</strong>设计为处理根节点，然后两边左子树合并左子树，右子树合并右子树，很自然的就是一个递归。</li>
+<li>递归问题有时候可以先<strong>整体思考</strong>，<strong>一步</strong>设计为处理根节点，然后两边左子树合并左子树，右子树合并右子树，很自然的就是一个递归。</li>
 <li>处理两边根节点是否为空，直接俩if完事。。。</li>
 </ul>
 <pre><code class="c++">class Solution &#123;
@@ -359,6 +359,7 @@ public:
 <p><img src="/2023/10/21/Tree-DFS/11.jpg" alt="img"></p>
 <h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
 <li>如图所示，关键在于意识到<strong>对于树是否平衡的判断可以在计算树的高（深）度的递归过程中顺带实现。</strong></li>
+<li>基于后序遍历</li>
 </ul>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
 public:
@@ -374,6 +375,30 @@ public:
 
     bool isBalanced(TreeNode* root) &#123;
         return height(root) &gt; -1 ? true : false;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="二叉树的最近公共祖先"><a href="#二叉树的最近公共祖先" class="headerlink" title="二叉树的最近公共祖先"></a>二叉树的最近公共祖先</h2><p><img src="/2023/10/21/Tree-DFS/12.png" alt="image-20231031234233656"></p>
+<p><img src="/2023/10/21/Tree-DFS/13.jpg" alt="img"></p>
+<h3 id="关键点-2"><a href="#关键点-2" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>分析问题，不难发现其实就是判断p和q在左右子树上的散落情况，可以用DFS去解决</li>
+<li>采用<strong>后序遍历</strong>的思路，先设计递归树逻辑，再设计代码。</li>
+</ul>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;
+        if(!root) return nullptr;
+        if(root == p) return root;
+        if(root == q) return root;
+        //后序遍历的形式
+        TreeNode* left = lowestCommonAncestor(root-&gt;left, p, q); //避免反复调用递归
+        TreeNode* right = lowestCommonAncestor(root-&gt;right, p, q);
+        if(left &amp;&amp; right) &#123;
+            return root;
+        &#125;
+        if(left) return left;
+        if(right) return right;
+        return nullptr;
     &#125;
 &#125;;
 </code></pre>
