@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Categories: 算法 | 嘟嘟噜の牧场</title>
+    <title>Archives | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -38,6 +38,8 @@
 <script src="/js/lib/preview.js"></script>
 
 
+
+<script src="/js/lib/search.js"></script>
 
 
 
@@ -150,181 +152,230 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
+            
+<div id="archives">
     
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/categories/%E6%9D%82%E8%B0%88/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                杂谈
-            </a>
-        </span>
-        
-        
-    </div>
+    <input id="search-bar" class="input" placeholder="搜索" v-model="rawSearch" />
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/31</div>
-            <a href="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/">
-                <h3>二分查找与中序遍历与搜索树</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
+    <div id="timeline-wrap" ref="timeline">
+        
+        <div class="timeline" data-title="给高三给学弟学妹们的一封信">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/10/17</div>
+                <a href="/2023/10/17/Letter-0/">
+                    <h3>给高三给学弟学妹们的一封信</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%9D%82%E8%B0%88/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            杂谈
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
                         <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                            <i class="fa-solid fa-tags fa-fw"></i>
                         </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
                         
-                        <a href="/tags/%E5%88%86%E6%B2%BB/" style="color: #ffa2c4">分治</a>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/letter/" style="color: #03a9f4">letter</a>
+                        </span>
+                        
                     </span>
                     
-                </span>
-                
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/23</div>
-            <a href="/2023/10/23/Tree-level/">
-                <h3>二叉树的层序遍历</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
+        
+        <div class="timeline" data-title="二叉树的前中后序遍历">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/10/18</div>
+                <a href="/2023/10/18/Tree-Traversal/">
+                    <h3>二叉树的前中后序遍历</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            算法
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
                         <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                            <i class="fa-solid fa-tags fa-fw"></i>
                         </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
                         
-                        <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
+                        </span>
+                        
                     </span>
                     
-                </span>
-                
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/21</div>
-            <a href="/2023/10/21/Tree-DFS/">
-                <h3>二叉树DFS的应用</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
+        
+        <div class="timeline" data-title="二叉树dfs的应用">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/10/21</div>
+                <a href="/2023/10/21/Tree-DFS/">
+                    <h3>二叉树DFS的应用</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            算法
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
                         <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                            <i class="fa-solid fa-tags fa-fw"></i>
                         </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
                         
-                        <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
+                        </span>
+                        
                     </span>
                     
-                </span>
-                
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/18</div>
-            <a href="/2023/10/18/Tree-Traversal/">
-                <h3>二叉树的前中后序遍历</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
+        
+        <div class="timeline" data-title="二叉树的层序遍历">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/10/23</div>
+                <a href="/2023/10/23/Tree-level/">
+                    <h3>二叉树的层序遍历</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            算法
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
                         <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                            <i class="fa-solid fa-tags fa-fw"></i>
                         </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
                         
-                        <a href="/tags/%E6%A0%91/" style="color: #00a596">树</a>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91/" style="color: #03a9f4">树</a>
+                        </span>
+                        
                     </span>
                     
-                </span>
-                
+                </div>
             </div>
         </div>
+        
+        <div class="timeline" data-title="二分查找与中序遍历与搜索树">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/10/31</div>
+                <a href="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/">
+                    <h3>二分查找与中序遍历与搜索树</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            算法
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%88%86%E6%B2%BB/" style="color: #ffa2c4">分治</a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="巨人完结纪念">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2023/11/9</div>
+                <a href="/2023/11/09/%E5%B7%A8%E4%BA%BA%E5%AE%8C%E7%BB%93%E7%BA%AA%E5%BF%B5/">
+                    <h3>巨人完结纪念</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%9D%82%E8%B0%88/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            杂谈
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="color: #ff7d73">碎碎念</a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
     </div>
-    
 </div>
 
             <footer id="footer">

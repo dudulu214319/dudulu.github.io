@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>二叉树的层序遍历 | 嘟嘟噜の牧场</title>
+    <title>嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -41,9 +41,7 @@
 
 
 
-
-
-
+<script src="/js/lib/home.js"></script>
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -154,89 +152,159 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>二叉树的层序遍历</h1>
+            <div id="home-head">
+    <div id="home-background" ref="homeBackground" data-images="/images/bg.jpg"></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>嘟嘟噜の牧场</h1>
+                <h3><span class="text"></span></h3>
+                <h5></h5>
+            </div>
+        </span>
     </div>
-    <div class="info">
+</div>
+<div id="home-posts-wrap" true ref="homePostsWrap">
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2023/10/17/Letter-0/">
+        <h2 class="post-title">给高三给学弟学妹们的一封信</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E6%9D%82%E8%B0%88/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                杂谈
+            </a>
+        </span>
+        
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/10/23
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法
-            </a>
+            2023/10/17
         </span>
         
         
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
             
+            <p>世界上只有一种英雄主义，那就是在认清生活的本质后，你仍然热爱生活。</p>
+
             
-            <span class="tag">
-                
-                <a href="/tags/%E6%A0%91/" style="color: #00a596">树</a>
-            </span>
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
             
+            <a href="/tags/letter/" style="color: #00bcd4">letter</a>
         </span>
         
     </div>
-    
-    <div class="content" v-pre>
-        <h1 id="二-n-叉树层序遍历"><a href="#二-n-叉树层序遍历" class="headerlink" title="二(n)叉树层序遍历"></a>二(n)叉树层序遍历</h1><p><img src="/2023/10/23/Tree-level/1.jpg" alt="1"></p>
-<h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
-<li>采用<strong>节点指针对列</strong>q</li>
-<li><code>q.size()</code>作循环完成对一层节点的访问</li>
-<li>左右节点的放入队列的顺序可以颠倒，实现每一层的反转访问</li>
-</ul>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
-public:
-    vector&lt;vector&lt;int&gt;&gt; levelOrder(Node* root) &#123;
-        vector&lt;vector&lt;int&gt;&gt; ans;
-        if(!root) return ans;
-        
-        queue&lt;Node*&gt; q;
-        q.push(root);
+    <a href="/2023/10/17/Letter-0/" class="go-post">阅读全文</a>
+</div>
 
-        while (!q.empty()) //整个算法终止条件
-        &#123;
-            int cnt = q.size();
-            vector&lt;int&gt; level;
-            for (size_t i = 0; i &lt; cnt; i++)
-            &#123;
-                Node* cur = q.front();
-                q.pop(); //弹出
-                level.push_back(cur-&gt;val); //存值
-                for (Node* child : cur-&gt;children) //有点类似pyhton里遍历迭代器的写法
-                &#123;
-                    q.push(child);
-                &#125;                
-            &#125;
-            ans.push_back(level);
-        &#125;
-        return ans;
-    &#125;
-&#125;;
-</code></pre>
 
-    </div>
+        <div class="page-current">
     
+    <a class="page-num" href="/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
     
-    
+    <span class="current">2</span>
     
     
     
     
 </div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/avatar.jpg" alt="avatar" />
+        </div>
+        <div class="name">嘟嘟噜~</div>
+        <div class="description">
+            <p>人活着就是为了去二次元整点薯条… People live just to go to ACG and find French fries…</p>
+
+        </div>
+        
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/dudulu214319">
+                    <i
+                        class="fa-brands fa-github fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a href="tencent://message/?uin=1926344877&Site=&Menu=yes">
+                    <i
+                        class="fa-brands fa-qq fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://space.bilibili.com/352050497?spm_id_from=333.1007.0.0">
+                    <i
+                        class="fa-brands fa-bilibili fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://steamcommunity.com/profiles/76561199025106214/">
+                    <i
+                        class="fa-brands fa-steam fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a href="mailto:1926344877@qq.com">
+                    <i
+                        class="fa-solid fa-envelope fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+
+
 
             <footer id="footer">
     <div id="footer-wrap">
@@ -344,12 +412,6 @@ public:
 	  }
 	}
 	</style>
-    
-    
-
-
-
-
     
 </body>
 </html>

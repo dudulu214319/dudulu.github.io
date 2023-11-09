@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%88%86%E6%B2%BB/" style="color: #ff7d73">分治</a>
+                <a href="/tags/%E5%88%86%E6%B2%BB/" style="color: #00a596">分治</a>
             </span>
             
         </span>
@@ -192,11 +192,11 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="二分查找与中序遍历与搜索树"><a href="#二分查找与中序遍历与搜索树" class="headerlink" title="二分查找与中序遍历与搜索树"></a>二分查找与中序遍历与搜索树</h1><h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/1.png" alt="image-20231031235156177"></p>
+        <h1 id="二分查找与中序遍历与搜索树"><a href="#二分查找与中序遍历与搜索树" class="headerlink" title="二分查找与中序遍历与搜索树"></a>二分查找与中序遍历与搜索树</h1><h2 id="⭐二分查找"><a href="#⭐二分查找" class="headerlink" title="⭐二分查找"></a>⭐二分查找</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/1.png" alt="image-20231031235156177"></p>
 <h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
 <li>背过即可，有个移位操作</li>
 <li>两种实现，递归实现注意自己设计好递归函数的参数，形成的是<strong>递归链</strong>，不再是<strong>递归树</strong></li>
-<li>注意low和high只隔一位或者重合的情况讨论，有时会影响一些边界细节</li>
+<li>注意low和high<strong>只隔一位或者重合</strong>的情况讨论，有时会影响一些边界细节</li>
 </ul>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
 public:
@@ -269,6 +269,239 @@ public:
                 return mid;
             &#125;
             
+        &#125;
+        return -1;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="二叉搜索树中的搜索"><a href="#二叉搜索树中的搜索" class="headerlink" title="二叉搜索树中的搜索"></a>二叉搜索树中的搜索</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/3.png" alt="image-20231104221500375"></p>
+<h3 id="关键点-2"><a href="#关键点-2" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>二叉搜索树可以在搜索时实现<strong>剪枝</strong>，搜索效率比普通树要高</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    TreeNode* searchBST(TreeNode* root, int val) &#123;
+        if(!root) return nullptr;
+        if(root-&gt;val == val) return root;
+        if(root-&gt;val &gt; val) return searchBST(root-&gt;left, val);
+        else return searchBST(root-&gt;right, val);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="⭐验证二叉搜索树与二叉搜索树的最小绝对差"><a href="#⭐验证二叉搜索树与二叉搜索树的最小绝对差" class="headerlink" title="⭐验证二叉搜索树与二叉搜索树的最小绝对差"></a>⭐验证二叉搜索树与二叉搜索树的最小绝对差</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/4.png" alt="image-20231104222358767"></p>
+<p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/6.png" alt="image-20231104223426166"></p>
+<p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/5.jpg" alt="img"></p>
+<h3 id="关键点-3"><a href="#关键点-3" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>使用<strong>前序遍历</strong>模板，借助&lt;a,b&gt;元组约束验证一棵树是否是二叉搜索树，原理是：对于二叉搜索树来说，走到某一结点的路径可以确定其约束元组。</li>
+<li>使用<strong>中序遍历</strong>模板，将一棵二叉搜索树转换为一个递增序列，递归遍历过程中实时更新pre和ans的值，就可以得到最小绝对值差。</li>
+</ul>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
+public:
+    bool isValidBST(TreeNode* root) &#123;
+        if(!root) return true;
+        if((root-&gt;left&amp;&amp;root-&gt;left-&gt;val &gt;= root-&gt;val) || (root-&gt;right&amp;&amp;root-&gt;right-&gt;val &lt;= root-&gt;val)) return false;
+        return isValidBST(root-&gt;left) &amp;&amp; isValidBST(root-&gt;right);
+    &#125;
+&#125;;
+
+class Solution &#123;
+public:
+    bool helpler(TreeNode* root, long long low, long long high ) &#123;
+        if(root == nullptr) &#123;
+            return true;
+        &#125;
+        if(root-&gt;val &lt;= low || root-&gt;val &gt;= high) &#123;
+            return false;
+        &#125;
+        return helpler(root-&gt;left, low, root-&gt;val) &amp;&amp; helpler(root-&gt;right, root-&gt;val, high);
+    &#125;
+
+    bool isValidBST(TreeNode* root) &#123;
+        return helpler(root, LONG_MIN, LONG_MAX);
+    &#125;
+&#125;;
+</code></pre>
+<pre><code class="c++">class Solution &#123;
+public:
+    void dfs(TreeNode* root, int &amp;pre, int &amp;ans) &#123;
+        if(!root) return;
+        dfs(root-&gt;left, pre, ans);
+        if(pre == -1) &#123;
+            pre = root-&gt;val;
+        &#125;else&#123;
+            ans = min(ans, root-&gt;val-pre);
+            pre = root-&gt;val;
+        &#125;
+        dfs(root-&gt;right, pre, ans);
+    &#125;
+
+    int getMinimumDifference(TreeNode* root) &#123;
+        int ans = INT_MAX, pre = -1;
+        dfs(root, pre, ans);
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="二叉搜索树中的众数"><a href="#二叉搜索树中的众数" class="headerlink" title="二叉搜索树中的众数"></a>二叉搜索树中的众数</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/7.png" alt="image-20231104223637509"></p>
+<h3 id="关键点-4"><a href="#关键点-4" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>思路和找最小绝对值差一样，都是利用中序遍历将树转换为序列，然后在递归过程中保存全局的变量迭代更新，就是边界条件麻烦一点。</li>
+</ul>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
+public:
+    void dfs(TreeNode* root, int &amp;pre, int &amp;cur_c, int &amp;max_c, vector&lt;int&gt; &amp;ans) &#123;
+        if(!root) return;
+        dfs(root-&gt;left, pre, cur_c, max_c, ans);
+        if(pre == root-&gt;val) &#123;
+            cur_c ++;
+        &#125;else &#123; // 结算前一组相同的数，但得排除INT_MIN
+            if(cur_c == max_c &amp;&amp; pre != INT_MIN) &#123;
+                ans.push_back(pre);
+            &#125;else if (cur_c &gt; max_c &amp;&amp; pre != INT_MIN)
+            &#123;
+                ans.clear(); 
+                ans.push_back(pre);
+                max_c = cur_c;
+            &#125;
+            pre = root-&gt;val;
+            cur_c = 1; //来计算新的一组数
+        &#125;
+        dfs(root-&gt;right, pre, cur_c, max_c, ans);
+    &#125;
+
+    vector&lt;int&gt; findMode(TreeNode* root) &#123;
+        int pre = INT_MIN;
+        int max_c = 0;
+        int cur_c = 0;
+        vector&lt;int&gt; ans;
+        dfs(root, pre, cur_c, max_c, ans);
+        // 考虑最后一组数
+        if(cur_c == max_c) &#123;
+            ans.push_back(pre);
+        &#125;
+        if(cur_c &gt; max_c) &#123;
+            ans.clear();
+            ans.push_back(pre);
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="在排序数组中查找元素的第一个和最后一个位置"><a href="#在排序数组中查找元素的第一个和最后一个位置" class="headerlink" title="在排序数组中查找元素的第一个和最后一个位置"></a>在排序数组中查找元素的第一个和最后一个位置</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/8.png" alt="image-20231104233943320"></p>
+<p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/9.jpg" alt="img"></p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
+public:
+    vector&lt;int&gt; searchRange(vector&lt;int&gt;&amp; nums, int target) &#123;
+    int left = 0;
+    int right = nums.size() - 1;
+    int first = -1;
+    int last = -1;
+    vector&lt;int&gt; ans;
+    // 找第一个等于target的位置
+    while (left &lt;= right) &#123;
+      int middle = (left + right) / 2;
+      if (nums[middle] == target) &#123;
+        first = middle;
+        right = middle - 1; //重点
+      &#125; else if (nums[middle] &gt; target) &#123;
+        right = middle - 1;
+      &#125; else &#123;
+        left = middle + 1;
+      &#125;
+    &#125;
+
+    // 最后一个等于target的位置
+    left = 0;
+    right = nums.size() - 1;
+    while (left &lt;= right) &#123;
+      int middle = (left + right) / 2;
+      if (nums[middle] == target) &#123;
+        last = middle;
+        left = middle + 1; //重点
+      &#125; else if (nums[middle] &gt; target) &#123;
+        right = middle - 1;
+      &#125; else &#123;
+        left = middle + 1;
+      &#125;
+    &#125;
+    return ans = &#123;first, last&#125;;
+&#125;
+&#125;;
+</code></pre>
+<h2 id="将有序数组转换为二叉搜索树"><a href="#将有序数组转换为二叉搜索树" class="headerlink" title="将有序数组转换为二叉搜索树"></a>将有序数组转换为二叉搜索树</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/10.png" alt="image-20231109171308745"></p>
+<h3 id="关键点-5"><a href="#关键点-5" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>其实对于有序数列来说随便一个点提起来都是一棵二叉搜索树，但是如果要满足<strong>高度平衡</strong>的条件，就需要不断用二分查找确定根节点</li>
+<li>然后不断递归实现即可</li>
+</ul>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
+public:
+    TreeNode* helpler(vector&lt;int&gt;&amp; nums, int low, int high) &#123;
+        if(low &gt; high) return nullptr;
+        int mid = (low + high) &gt;&gt; 1;
+        TreeNode* node = new TreeNode(nums[mid]);
+        node-&gt;left = helpler(nums, low, mid - 1);
+        node-&gt;right = helpler(nums, mid + 1, high);
+        return node;
+    &#125;
+
+    TreeNode* sortedArrayToBST(vector&lt;int&gt;&amp; nums) &#123;
+        int low = 0;
+        int high = nums.size()-1;
+        return helpler(nums, low, high);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="爱吃香蕉的珂珂"><a href="#爱吃香蕉的珂珂" class="headerlink" title="爱吃香蕉的珂珂"></a>爱吃香蕉的珂珂</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/11.png" alt="image-20231109172301616"></p>
+<h3 id="关键点-6"><a href="#关键点-6" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li><p>有临界性质（最大最小）的问题，就可以考虑用二分查找！需要确定有：</p>
+<ul>
+<li>查找出口</li>
+<li>low和high端点，这里我用了放缩确定</li>
+<li>mid落入左右分区时，low和high的移动逻辑</li>
+</ul>
+</li>
+<li><p>注意<strong>向上取整</strong>的实现方法，(x+d-1)&#x2F;d。</p>
+</li>
+<li><p>vector中**begin(),end(),rbegin(),rend()**的用法。</p>
+</li>
+</ul>
+<pre><code class="C++">sort(piles.begin(), piles.end()); //从小到大
+sort(piles.rbegin(), piles.rend()); //从大到小
+</code></pre>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
+public:
+    long long sumTime(vector&lt;int&gt; piles, long long k) &#123;
+        long long n = piles.size();
+        long long sum = 0;
+        for (long long i = 0; i &lt; n; i++)
+        &#123;
+            sum += (piles[i] + k - 1) / k;
+        &#125;
+        return sum;
+    &#125;
+
+    int minEatingSpeed(vector&lt;int&gt;&amp; piles, int h) &#123;
+        long long c = piles.size();
+        sort(piles.begin(), piles.end());
+        long long min_p = piles.front();
+        long long max_p = piles.back();
+        long long low_k = (c*min_p + h - 1) / h;
+        long long high_k = max_p;
+        long long mid;
+        
+        while (low_k &lt;= high_k)
+        &#123;
+            mid = low_k +((high_k - low_k) &gt;&gt; 1);
+            long long fuck = sumTime(piles, mid); 
+            if(mid == 1 &amp;&amp; fuck &lt;= h) return 1; //经典边界
+            // 有临界性质（最大最小）的问题，就可以考虑用二分查找
+            if(fuck &lt;= h &amp;&amp; sumTime(piles, mid-1) &gt; h) &#123;
+                return mid;
+            &#125;else if (fuck &gt; h)
+            &#123;
+                low_k = mid + 1;
+            &#125;else&#123;
+                high_k = mid - 1;
+            &#125;
         &#125;
         return -1;
     &#125;
