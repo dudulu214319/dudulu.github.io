@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 树 | 嘟嘟噜の牧场</title>
+    <title>2023-11-9 bug解决 | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -36,6 +36,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,188 +154,68 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>2023-11-9 bug解决</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/11/19
+        </span>
         
-        
-        
-        <span>
-            <a href="/tags/%E6%A0%91/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+        <span class="category">
+            <a href="/categories/%E5%B9%B2%E6%8E%89bug/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                树
+                干掉bug
             </a>
         </span>
         
         
-        
-        
-        
-        <span>
-            <a href="/tags/letter/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                letter
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pytorch/" style="color: #00bcd4">pytorch</a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%88%86%E6%B2%BB/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                分治
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                碎碎念
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%8E%92%E5%BA%8F/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                排序
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/pytorch/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                pytorch
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/23</div>
-            <a href="/2023/10/23/Tree-level/">
-                <h3>二叉树的层序遍历</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%A0%91/" style="color: #03a9f4">树</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h1 id="【已解决】RuntimeError-Trying-to-backward-through-the-graph-a-second-time"><a href="#【已解决】RuntimeError-Trying-to-backward-through-the-graph-a-second-time" class="headerlink" title="【已解决】RuntimeError: Trying to backward through the graph a second time"></a>【已解决】RuntimeError: Trying to backward through the graph a second time</h1><h2 id="原因分析和解决"><a href="#原因分析和解决" class="headerlink" title="原因分析和解决"></a>原因分析和解决</h2><p>我在做Transformer训练的时候，需要把上一次的outputs结果拼贴到下一次的batch_x里，如果没有提前detach()掉outputs，就会报这个错误。</p>
+<pre><code class="python">outputs = outputs.detach()
+batch_x = torch.cat((batch_x, outputs), 2)
+</code></pre>
+<p>这样在一个epoch里就没有问题了。</p>
+<h2 id="epoch之间仍有问题"><a href="#epoch之间仍有问题" class="headerlink" title="epoch之间仍有问题"></a>epoch之间仍有问题</h2><p>因为train的过程中也顺便做vali，vali函数中的内容也需要一并修改。</p>
+<pre><code class="python">print(&quot;Epoch: &#123;&#125; cost time: &#123;&#125;&quot;.format(epoch + 1, time.time()-epoch_time))
+train_loss = np.average(train_loss)
+vali_loss = self.vali(vali_data, vali_loader, criterion)
+test_loss = self.vali(test_data, test_loader, criterion)
+</code></pre>
+<h2 id="loss值为脏数据nan-inf的问题"><a href="#loss值为脏数据nan-inf的问题" class="headerlink" title="loss值为脏数据nan&#x2F;inf的问题"></a>loss值为脏数据nan&#x2F;inf的问题</h2><pre><code class="python"># 去除脏数据
+if torch.any(torch.isnan(outputs)):
+outputs = torch.where(torch.isnan(outputs), torch.full_like(outputs, 0), outputs)
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一个torch张量不能单纯看作data矩阵，还得考虑其在graph中的分布。</p>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/21</div>
-            <a href="/2023/10/21/Tree-DFS/">
-                <h3>二叉树DFS的应用</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%A0%91/" style="color: #00a596">树</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2023/10/18</div>
-            <a href="/2023/10/18/Tree-Traversal/">
-                <h3>二叉树的前中后序遍历</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AE%97%E6%B3%95/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        算法
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%A0%91/" style="color: #00bcd4">树</a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
+    
     
 </div>
 
@@ -441,6 +325,12 @@
 	  }
 	}
 	</style>
+    
+    
+
+
+
+
     
 </body>
 </html>
