@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>排序 | 嘟嘟噜の牧场</title>
+    <title>排序+堆 | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -156,7 +156,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>排序</h1>
+        <h1>排序+堆</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -425,8 +425,16 @@ vector&lt;int&gt; MySort(vector&lt;int&gt;&amp; arr) &#123;
 </li>
 </ul>
 <h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><h3 id="堆的基本性质"><a href="#堆的基本性质" class="headerlink" title="堆的基本性质"></a>堆的基本性质</h3><p><img src="/2023/11/09/%E6%8E%92%E5%BA%8F/9.png" alt="小顶堆与大顶堆"></p>
+<p><img src="/2023/11/09/%E6%8E%92%E5%BA%8F/Users\19263\Desktop\dudulu_blog\source_posts\排序\representation_of_heap.png" alt="堆的表示与存储"></p>
 <ul>
-<li><strong>堆通常用作实现优先队列，大顶堆相当于元素按从大到小顺序出队的优先队列</strong>。从使用角度来看，我们可以将“优先队列”和“堆”看作等价的数据结构。</li>
+<li><p><strong>堆通常用作实现优先队列，大顶堆相当于元素按从大到小顺序出队的优先队列</strong>。从使用角度来看，我们可以将“优先队列”和“堆”看作等价的数据结构。</p>
+</li>
+<li><p>给定索引 i，其<strong>左子节点索引</strong>为 2i+1 ，<strong>右子节点索引</strong>为 2i+2 ，<strong>父节点索引</strong>为 (i−1)&#x2F;2（向下取整）。当索引越界时，表示空节点或节点不存在。</p>
+<blockquote>
+<p>priority_queue&lt;Type, Container, Functional&gt;</p>
+<p>Container必须是用数组实现的容器，比如vector,deque等等，但不能用 list。STL里面默认用的是vector</p>
+</blockquote>
+</li>
 </ul>
 <pre><code class="C++">/* 初始化堆 */
 // 初始化小顶堆
@@ -461,6 +469,146 @@ bool isEmpty = maxHeap.empty();
 /* 输入列表并建堆 */
 vector&lt;int&gt; input&#123;1, 3, 2, 5, 4&#125;;
 priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap(input.begin(), input.end());
+</code></pre>
+<blockquote>
+<p>pair的实现是一个结构体，主要的两个成员变量是first、second。</p>
+<p>优先队列里放pair的比较规则：先比较第一个元素，第一个相等比较第二个。</p>
+<p>可以用emplace（1，2）自动调用构造函数！</p>
+</blockquote>
+<pre><code class="C++">#include&lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+int main() &#123;
+    priority_queue&lt;pair&lt;int, int&gt; &gt; a;
+    pair&lt;int,int&gt; b(1,5);
+    pair&lt;int,int&gt; d(1,2);
+    pair&lt;int,int&gt; c(6,1);
+ 
+    a.push(d);
+    a.push(c);
+    a.push(b);
+ 
+    while (!a.empty()) &#123;
+        cout&lt;&lt;a.top().first&lt;&lt;&quot; &quot;&lt;&lt;a.top().second&lt;&lt;endl;
+        a.pop();
+    &#125;
+ 
+    return 0;
+&#125;
+</code></pre>
+<h3 id="⭐遍历堆化（输入列表并建堆的时间复杂度为O-n-）"><a href="#⭐遍历堆化（输入列表并建堆的时间复杂度为O-n-）" class="headerlink" title="⭐遍历堆化（输入列表并建堆的时间复杂度为O(n)）"></a>⭐遍历堆化（输入列表并建堆的时间复杂度为O(n)）</h3><ol>
+<li>将列表所有元素原封不动添加到堆中，此时堆的性质尚未得到满足。</li>
+<li>倒序遍历堆（即层序遍历的倒序），依次对每个非叶节点执行“从顶至底堆化”</li>
+</ol>
+<p><strong>每当堆化一个节点后，以该节点为根节点的子树就形成一个合法的子堆</strong>。而由于是倒序遍历，因此堆是“自下而上”地被构建的。</p>
+<h3 id="数组中的第K个最大元素（Top-K-问题，排序的弱化问题）"><a href="#数组中的第K个最大元素（Top-K-问题，排序的弱化问题）" class="headerlink" title="数组中的第K个最大元素（Top-K 问题，排序的弱化问题）"></a>数组中的第K个最大元素（Top-K 问题，排序的弱化问题）</h3><p><img src="/2023/11/09/%E6%8E%92%E5%BA%8F/11.png" alt="image-20231120170945118"></p>
+<pre><code class="C++">class Solution &#123;
+public:
+    int findKthLargest(vector&lt;int&gt;&amp; nums, int k) &#123;
+        priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt;&gt; q(nums.begin(), nums.end());
+        int res;
+        while (k--)
+        &#123;
+            res = q.top();
+            q.pop();
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+<pre><code class="C++">class Solution &#123;
+public:
+    void siftDown(vector&lt;int&gt;&amp; arr, int n, int i) &#123;
+        while (true) &#123;
+            int l = 2*i + 1;
+            int r = 2*i + 2;
+            int ma = i;
+            if(l &lt;= n-1 &amp;&amp; arr[l] &gt; arr[ma]) ma = l;
+            if(r &lt;= n-1 &amp;&amp; arr[r] &gt; arr[ma]) ma = r;
+            if(ma == i) break;
+            swap(arr[i], arr[ma]);
+            // 堆化索引继续向下,把大值拱上去,把i节点值放到合适的位置,以此维持未排序部分是大顶堆
+            i = ma;
+        &#125;
+    &#125;
+
+    int findKthLargest(vector&lt;int&gt;&amp; nums, int k) &#123;
+        int n = nums.size();
+        for (int i = n/2 - 1; i &gt;= 0; i--)
+        &#123;
+            siftDown(nums, n, i);
+        &#125;
+        for (int i = n-1; i &gt; n - k; i --)
+        &#123;
+            swap(nums[0], nums[i]);
+            siftDown(nums, i, 0);
+        &#125;
+        return nums[0];
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h3><p><img src="/2023/11/09/%E6%8E%92%E5%BA%8F/12.png" alt="image-20231121154338389"></p>
+<ul>
+<li>采用优先队列<code> priority_queue&lt;pair&lt;int, int&gt;&gt; q;</code>，只有在堆顶元素离开窗口的时候才会弹出，否则其内部自动维护堆顶即可。</li>
+<li>上面示例1应该是一次也没弹出，能理解这个就行了。</li>
+</ul>
+<pre><code class="c++">class Solution &#123;
+public:
+    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;
+        int n = nums.size();
+        priority_queue&lt;pair&lt;int, int&gt;&gt; q;
+        for (int i = 0; i &lt; k; ++i) &#123;
+            q.emplace(nums[i], i);
+        &#125;
+        vector&lt;int&gt; ans = &#123;q.top().first&#125;;
+        for (int i = k; i &lt; n; ++ i) &#123; // 窗口向前滑动
+            q.emplace(nums[i], i); // 放入并自动更新堆顶，如果是更大的数就更新堆顶
+            while (q.top().second &lt;= i - k) &#123; // 循环检查堆顶元素是否已经出窗口
+                q.pop();
+            &#125;
+            ans.push_back(q.top().first); 
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="合并k个升序链表"><a href="#合并k个升序链表" class="headerlink" title="合并k个升序链表"></a>合并k个升序链表</h3><p><img src="/2023/11/09/%E6%8E%92%E5%BA%8F/13.png" alt="image-20231129162816738"></p>
+<ul>
+<li>主要是需要重构cmp类，<code>bool operater () (ListNode* a, ListNode* b)</code>，注意多一个括号</li>
+<li>非空的k个链表维护一个<strong>小顶堆</strong>，不断输出堆顶用头插法链接链表即可</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    class cmp&#123;
+        public: 
+            bool operator() (ListNode* a, ListNode* b) &#123;
+                return a-&gt;val &gt; b-&gt;val;
+        &#125;
+    &#125;;
+
+    ListNode* mergeKLists(vector&lt;ListNode*&gt;&amp; lists) &#123;
+        ListNode* dummy = new ListNode(0);
+        ListNode* p = dummy;
+        priority_queue&lt;ListNode*, vector&lt;ListNode*&gt;, cmp&gt; q;
+        for(ListNode* head : lists) &#123;
+            if(head) &#123;
+                q.push(head);
+            &#125;
+        &#125;
+        while (!q.empty())
+        &#123;
+            ListNode* temp = q.top();
+            q.pop();
+            p-&gt;next = temp;
+            p = p-&gt;next;
+            if(temp-&gt;next != nullptr) &#123;
+                q.push(temp-&gt;next);
+            &#125; 
+        &#125;
+        return dummy-&gt;next;
+        
+    &#125;
+&#125;;
 </code></pre>
 <h3 id="回到堆排序"><a href="#回到堆排序" class="headerlink" title="回到堆排序"></a>回到堆排序</h3><ul>
 <li>原理：一个arr数组可以平铺到一棵完全二叉树里，一一对应的关系，所以我们可以把arr数组<strong>视为</strong>一个堆，并使用堆的性质排序。</li>
@@ -500,7 +648,7 @@ priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap(input.b
         &#125;
         for(int i = n - 1;i &gt;= 0;i --) &#123;
             swap(arr[0], arr[i]);
-            // 不断维持未排序部分是大顶堆，i变小限制堆的视野
+            // 交换后堆顶元素破坏大顶堆，对堆顶进行堆化，不断维持未排序部分是大顶堆，i变小限制堆的视野
             siftDown(arr, i, 0);
         &#125;
         return arr;
