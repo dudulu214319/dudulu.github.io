@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>字符串 | 嘟嘟噜の牧场</title>
+    <title>字符串+vector | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -156,7 +156,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>字符串</h1>
+        <h1>字符串+vector</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -192,7 +192,7 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h2 id="C-string"><a href="#C-string" class="headerlink" title="C++ string"></a>C++ string</h2><p>与C风格的字符串不同，当我们需要知道字符串长度时，可以调用 string 类提供的 length() 函数。由于 string 的末尾没有<code>&#39;\0&#39;</code>字符，所以 length() 返回的是字符串的真实长度，而不是长度 +1。</p>
+        <h1 id="字符串-vector"><a href="#字符串-vector" class="headerlink" title="字符串+vector"></a>字符串+vector</h1><h2 id="C-string"><a href="#C-string" class="headerlink" title="C++ string"></a>C++ string</h2><p>与C风格的字符串不同，当我们需要知道字符串长度时，可以调用 string 类提供的 length() 函数。由于 string 的末尾没有<code>&#39;\0&#39;</code>字符，所以 length() 返回的是字符串的真实长度，而不是长度 +1。</p>
 <pre><code class="C++">int len = s.length();
 int len = s.size();
 </code></pre>
@@ -316,6 +316,137 @@ public:
     &#125;
 &#125;;
 </code></pre>
+<h2 id="vector常用用法补充"><a href="#vector常用用法补充" class="headerlink" title="vector常用用法补充"></a>vector常用用法补充</h2><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>vector()</td>
+<td>创建一个空vector</td>
+</tr>
+<tr>
+<td>vector(int nSize)</td>
+<td>创建一个vector,元素个数为nSize，有默认值</td>
+</tr>
+<tr>
+<td>vector(int nSize,const t&amp; t)</td>
+<td>创建一个vector，元素个数为nSize,且值均为t</td>
+</tr>
+<tr>
+<td>vector<T> v2(v1)</T></td>
+<td>使用 v2 中所有元素初始化 v1</td>
+</tr>
+<tr>
+<td>vector<T> v5{a, b, c…}</T></td>
+<td>使用 a, b, c… 初始化 v5</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>常用方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v.empty()</td>
+<td>如果 v 为空则返回 true，否则返回 false</td>
+</tr>
+<tr>
+<td>v.size()</td>
+<td>返回 v 中元素的个数</td>
+</tr>
+<tr>
+<td><strong>v.push_back(val)</strong></td>
+<td>向 vector 的尾端添加值为 val 的元素。</td>
+</tr>
+<tr>
+<td><strong>v.pop_back(val)</strong></td>
+<td>删除尾元素，返回<strong>void</strong>。</td>
+</tr>
+<tr>
+<td>v.back()</td>
+<td>返回 v 中最后一个元素的<strong>引用</strong></td>
+</tr>
+<tr>
+<td>v.front()</td>
+<td>返回 v 中第一个元素的<strong>引用</strong></td>
+</tr>
+</tbody></table>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><ul>
+<li>遍历</li>
+</ul>
+<pre><code class="c++">vector&lt;string&gt; a&#123;&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;&#125;;
+    auto it = a.begin();  // 返回一个迭代器类型，一般来说我们并不关心迭代器具体的数据类型
+    while(it != a.end())
+    &#123;
+        cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+        it++;
+    &#125;
+</code></pre>
+<ul>
+<li>插入</li>
+</ul>
+<pre><code class="C++">vector&lt;int&gt; a&#123;1, 2, 3, &#125;;
+    auto it1 = a.begin();  // 返回一个迭代器类型，一般来说我们并不关心迭代器具体的数据类型
+    auto it2 = a.insert((it1+1), &#123;6, 7, 8&#125;);  // 利用迭代器在第二个元素之前插入数据
+    cout &lt;&lt; *it2 &lt;&lt; endl;  // 返回的是新插入元素第一个元素的迭代器
+</code></pre>
+<ul>
+<li>删除</li>
+</ul>
+<p><strong>v.erase(p)</strong> ：删除迭代器 p 所指的元素，返回指向被删除元素之后元素的迭代器。</p>
+<p><strong>v.erase(b, e)</strong> ：删除迭代器 b, e 之间的元素，返回指向最后一个被删除元素之后元素的迭代器。</p>
+<h4 id="头文件-中的算法"><a href="#头文件-中的算法" class="headerlink" title="头文件  中的算法"></a>头文件 <algorithm> 中的算法</algorithm></h4><ul>
+<li>排序&#x2F;逆序</li>
+</ul>
+<pre><code class="C++">sort(a.begin(), a.end());  //原位操作
+reverse(a.begin(), a.end());  // 原位逆序排列1
+sort(nums.begin(), nums.end(), greater&lt;int&gt;()); // 原位逆序排列2
+</code></pre>
+<ul>
+<li>最值</li>
+</ul>
+<p><strong>最大值</strong> auto it &#x3D; max_element(v.begin, v,end())，返回最大值的迭代器。</p>
+<p><strong>最小值</strong> auto it &#x3D; min_element(v.begin, v,end())，返回最小值的迭代器。</p>
+<h2 id="763-划分字母空间"><a href="#763-划分字母空间" class="headerlink" title="763-划分字母空间"></a>763-划分字母空间</h2><p><img src="/2023/12/19/%E5%AD%97%E7%AC%A6%E4%B8%B2/4.png" alt="image-20240106223901639"></p>
+<p><img src="/2023/12/19/%E5%AD%97%E7%AC%A6%E4%B8%B2/3.png" alt="image.png"></p>
+<ul>
+<li>思路如上图所示，不断切割字母闭包即可。</li>
+<li>比较有启发的是，<strong>对于这种只有26个小写字母组成的字符串的问题，都可以考虑用一个26维的数组记录各个字母的统计信息</strong>，先来一边O(n)即可。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    vector&lt;int&gt; partitionLabels(string s) &#123;
+        // 使用26维数组编码char
+        int Char[26];
+        int len = s.length();
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt; len; i++)
+        &#123;
+            Char[s[i] - &#39;a&#39;] = i; // 记忆最远位置
+        &#125;
+        int fuck = Char[s[0] - &#39;a&#39;]; // 对一个正在吃的字串来说其char集的最远位置
+        int cnt = 1;
+        for (int i = 0; i &lt; len; i++)
+        &#123;
+            if(i == fuck) &#123;
+                res.push_back(cnt); // 切割长度
+                if(i == len - 1) break; // 麻烦的边界情况
+                fuck = Char[s[i+1] - &#39;a&#39;]; // 对下一段字串计算
+                cnt = 1;
+            &#125;else &#123;
+                fuck = Char[s[i] - &#39;a&#39;] &gt; fuck ? Char[s[i] - &#39;a&#39;] : fuck; // 更新该没吃完的字串的最远位置
+                cnt ++;
+            &#125;
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre>
 
     </div>
     
@@ -331,7 +462,7 @@ public:
     <div id="footer-wrap">
         <div>
             &copy;
-            2023 - 2023 嘟嘟噜の牧场
+            2023 - 2024 嘟嘟噜の牧场
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>

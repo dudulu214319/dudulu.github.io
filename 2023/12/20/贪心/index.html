@@ -166,11 +166,287 @@
             2023/12/20
         </span>
         
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #ff7d73">贪心</a>
+            </span>
+            
+        </span>
         
     </div>
     
     <div class="content" v-pre>
-        
+        <h1 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h1><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231220164452095.png" alt="image-20231220164452095"></p>
+<h2 id="455-分发饼干"><a href="#455-分发饼干" class="headerlink" title="455-分发饼干"></a>455-分发饼干</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231221205635030.png" alt="image-20231221205635030"></p>
+<ul>
+<li>很简单的贪心，用尽可能小的饼干来满足每个学生（<strong>局部贪心</strong>），充分利用饼干资源，就能满足尽可能多的学生（<strong>全局最优</strong>）。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int findContentChildren(vector&lt;int&gt;&amp; g, vector&lt;int&gt;&amp; s) &#123;
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        int cnt = 0;
+        auto jt = s.begin();
+        for (auto it = g.begin(); it &lt; g.end(); it++)
+        &#123;
+            while (jt != s.end() &amp;&amp; *jt &lt; *it)
+            &#123;
+                jt ++;
+            &#125;
+            if(jt == s.end()) break;
+            jt ++;
+            cnt ++;
+        &#125;
+        return cnt;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="860-柠檬水找零"><a href="#860-柠檬水找零" class="headerlink" title="860-柠檬水找零"></a>860-柠檬水找零</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231221210223899.png" alt="image-20231221210223899"></p>
+<ul>
+<li>分类讨论即可。</li>
+<li>5元的找零能力强，就尽可能每次找零留下5用10找（<strong>局部贪心</strong>），就能保证全局性质上的最佳找零能力。如果全局性质上的最佳找零能力都满足不了需求，说明确实无法完成该bills数列的找零。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    bool lemonadeChange(vector&lt;int&gt;&amp; bills) &#123;
+        unordered_map&lt;int, int&gt; m;
+        for (auto it = bills.begin(); it &lt; bills.end(); it++)
+        &#123;
+            if(*it == 5) &#123;
+                m[5] ++;
+            &#125;else if (*it == 10)
+            &#123;
+                if(m[5] &gt; 0) &#123;
+                    m[5] --;
+                    m[10] ++;
+                &#125;
+                else &#123;
+                    return false;
+                &#125;
+            &#125;else &#123;
+                if(m[5] &gt; 0 &amp;&amp; m[10] &gt; 0) &#123;
+                    m[5] --;
+                    m[10] --;
+                &#125;
+                else if (m[5] &gt;= 3)
+                &#123;
+                    m[5] -= 3;
+                &#125;
+                else &#123;
+                    return false;
+                &#125;
+            &#125;
+        &#125;
+        return true;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="135-分发糖果"><a href="#135-分发糖果" class="headerlink" title="135-分发糖果"></a>135-分发糖果</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231221210857588.png" alt="image-20231221210857588"></p>
+<h2 id="252-判断区间是否重叠"><a href="#252-判断区间是否重叠" class="headerlink" title="252-判断区间是否重叠"></a>252-判断区间是否重叠</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231222123133786.png" alt="image-20231222123133786"></p>
+<ul>
+<li>难点在于怎么对存结构体的vector进行sort。</li>
+</ul>
+<pre><code class="C++">sort(aaa.begin(),aaa.end(),GreaterSort);//降序排列
+sort(aaa.begin(),aaa.end(),LessSort);//升序排列
+</code></pre>
+<pre><code class="C++">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+ 
+using namespace std;
+ 
+struct Point2
+&#123;
+    int x;
+    int y;
+&#125;;
+bool GreaterSort (Point2 a,Point2 b) &#123; return (a.x&gt;b.x); &#125;
+bool LessSort (Point2 a,Point2 b) &#123; return (a.x&lt;b.x); &#125;
+int main()
+&#123;
+    vector&lt;Point2&gt; aaa;
+    Point2 temp;
+    temp.x=1;
+    temp.y=1;
+    aaa.push_back(temp);
+    temp.x=2;
+    temp.y=2;
+    aaa.push_back(temp);	
+    temp.x=3;
+    temp.y=3;
+    aaa.push_back(temp);
+    sort(aaa.begin(),aaa.end(),GreaterSort);//降序排列
+    cout&lt;&lt;&quot;Greater Sort:&quot;&lt;&lt;endl;
+    for (int i =0;i&lt;aaa.size();i++)
+    &#123;
+        cout&lt;&lt;aaa[i].x&lt;&lt;&quot;	&quot;&lt;&lt;aaa[i].y&lt;&lt;endl;
+    &#125;
+ 
+    sort(aaa.begin(),aaa.end(),LessSort);//升序排列
+    cout&lt;&lt;&quot;Less Sort:&quot;&lt;&lt;endl;
+    for (int i =0;i&lt;aaa.size();i++)
+    &#123;
+        cout&lt;&lt;aaa[i].x&lt;&lt;&quot;	&quot;&lt;&lt;aaa[i].y&lt;&lt;endl;
+    &#125;
+ 
+    return 1;
+&#125;
+</code></pre>
+<ul>
+<li>补充普通（二维）数组的sort操作，</li>
+</ul>
+<pre><code class="C++">bool cmp(int x,int y)
+&#123;
+    return x&gt;y;
+&#125;
+int main()
+&#123;
+    int i,a[50]=&#123;2,3,5,1,-1&#125;;
+    sort(a,a+5,cmp); // 从大到小，默认是从小到大
+    for(i=0;i&lt;5;i++)
+        printf(&quot;%d &quot;,a[i]);
+    return 0;
+&#125;
+</code></pre>
+<pre><code class="C++">bool cmp(int a[],int b[])
+&#123;
+    if(a[0] != b[0]) return a[0] &gt; b[0];
+    if(a[1] != b[1]) return a[1] &gt; b[1];
+    if(a[2] != b[2]) return a[2] &gt; b[2];
+&#125;
+ 
+int main()
+&#123;
+    int a[6] = &#123;1, 1, 1, 2, 2, 3&#125;;		//储存re[i][0] 
+    int b[6] = &#123;4, 4, 3, 9, 5, 9&#125;;		//储存re[i][1] 
+    int c[6] = &#123;3, 7, 5, 4, 8, 6&#125;;		//储存re[i][2] 
+    int i;
+    
+    int **re = new int*[6];		//动态创建二维数组 
+    for (i = 0; i &lt; 6; ++i)
+    &#123;
+        re[i] = new int[3];
+        re[i][0] = a[i];
+        re[i][1] = b[i];
+        re[i][2] = c[i];
+    &#125;
+    
+    sort(re, re + 6, cmp);		//排序后输出 
+    for(i = 0; i &lt; 6; ++i)
+        cout &lt;&lt; re[i][0] &lt;&lt; &#39; &#39; &lt;&lt; re[i][1] &lt;&lt; &#39; &#39; &lt;&lt; re[i][2] &lt;&lt; endl;
+ 
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li>排序之后就很简单了</li>
+</ul>
+<p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231222162301955.png" alt="image-20231222162301955"></p>
+<h2 id="56-合并区间"><a href="#56-合并区间" class="headerlink" title="56-合并区间"></a>56-合并区间</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231223170550880.png" alt="image-20231223170550880"></p>
+<ul>
+<li>前探式，不断吸收有重叠的区间merge成一个。</li>
+<li>主要是需要先排序，需要自己重载一下cmp函数，而且是static函数。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    static bool cmp(vector&lt;int&gt; a, vector&lt;int&gt; b) &#123;
+        return a[0] &lt; b[0];
+    &#125;
+
+    vector&lt;vector&lt;int&gt;&gt; merge(vector&lt;vector&lt;int&gt;&gt;&amp; intervals) &#123;
+        if(intervals.size() == 1) return intervals;
+        sort(intervals.begin(), intervals.end(), cmp);
+        // 循环入口设计想清楚再写
+        auto it = intervals.begin();
+        auto itt = it + 1;
+        while (itt != intervals.end())
+        &#123;
+            if((*it)[1] &gt;= (*itt)[0]) &#123;
+                if((*it)[1] &lt;= (*itt)[1]) (*it)[1] = (*itt)[1]; // 后尾长于前尾
+                intervals.erase(itt);
+            &#125;else &#123;
+                it ++;
+            &#125;
+            itt = it + 1;
+        &#125;
+        return intervals;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="57-插入区间"><a href="#57-插入区间" class="headerlink" title="57-插入区间"></a>57-插入区间</h2><p><img src="/2023/12/20/%E8%B4%AA%E5%BF%83/Users\19263\Desktop\dudulu_blog\source_posts\贪心\image-20231223171617269.png" alt="image-20231223171617269"></p>
+<ul>
+<li>核心思路就是<strong>单独分一个res来保存结果</strong>，直接在intervals里处理复杂度过高。</li>
+<li>插入区间之前的区间直接放入res，被插入区间影响到的区间和插入区间一起打包merge，插入区间后的区间也直接放入res。</li>
+<li>比较麻烦的是三种特殊情况：直接塞到最前面，直接塞到最后面和插在缝里，这几种都没有产生影响区间。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    vector&lt;vector&lt;int&gt;&gt; insert(vector&lt;vector&lt;int&gt;&gt;&amp; intervals, vector&lt;int&gt;&amp; newInterval) &#123;
+        if(intervals.empty()) &#123;
+            intervals.push_back(newInterval);
+            return intervals;
+        &#125;
+        vector&lt;vector&lt;int&gt;&gt; res;
+        auto it = intervals.begin();
+        if((*it)[0] &gt; newInterval[1]) &#123; // 直接塞到最前
+            intervals.insert(it, newInterval);
+            return intervals;
+        &#125;
+        while ((*it)[1] &lt; newInterval[0])
+        &#123;
+            res.push_back((*it));
+            it ++;
+            if(it == intervals.end()) &#123;
+                intervals.push_back(newInterval);
+                return intervals;
+            &#125;; // 没有一个被影响的，直接塞到尾部
+        &#125;
+        // (*it)[1] &gt;= newInterval[0] 当下it已经被影响？不一定
+        if((*it)[0] &gt; newInterval[1]) &#123;
+            intervals.insert(it, newInterval); // 插入缝里
+            return intervals;
+        &#125;
+        auto start = it;// 影响的起始区间
+        auto end = it;
+        while ((*it)[0] &lt;= newInterval[1])
+        &#123;
+            end = it;
+            it ++;
+            if(it == intervals.end()) &#123; //影响到尾部
+                break;
+            &#125;
+        &#125;
+        // 当下it已不被影响 end是终止区间
+        vector&lt;int&gt; merge = &#123;min(newInterval[0], (*start)[0]), max(newInterval[1], (*end)[1])&#125;;
+        res.push_back(merge);
+        while (it != intervals.end()) //加入剩余的区间
+        &#123;
+            res.push_back((*it));
+            it ++;
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+<p>​		</p>
+
     </div>
     
     
@@ -185,7 +461,7 @@
     <div id="footer-wrap">
         <div>
             &copy;
-            2023 - 2023 嘟嘟噜の牧场
+            2023 - 2024 嘟嘟噜の牧场
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>

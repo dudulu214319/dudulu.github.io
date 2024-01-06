@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>滑动窗口 | 嘟嘟噜の牧场</title>
+    <title>滑动窗口-map | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -156,7 +156,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>滑动窗口</h1>
+        <h1>滑动窗口-map</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="color: #03a9f4">滑动窗口</a>
+                <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="color: #00a596">滑动窗口</a>
             </span>
             
         </span>
@@ -192,7 +192,7 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h1><p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/5.png" alt="image-20231129173228524"></p>
+        <h1 id="滑动窗口-map"><a href="#滑动窗口-map" class="headerlink" title="滑动窗口+map"></a>滑动窗口+map</h1><p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/5.png" alt="image-20231129173228524"></p>
 <blockquote>
 <p>Leecode 340 至多包含 K 个不同字符的最长子串</p>
 <p>Leecode 1004 最大连续1的个数 III </p>
@@ -414,6 +414,67 @@ public:
     &#125;
 &#125;;
 </code></pre>
+<h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1-两数之和"></a>1-两数之和</h2><p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/Users\19263\Desktop\dudulu_blog\source_posts\滑动窗口\image-20231229170900687.png" alt="image-20231229170900687"></p>
+<ul>
+<li>解法一：哈希表，边走边记，每遍历一个新数就查哈希表里是不是有target-nums[i]。</li>
+<li>解法二：双指针。不管三七二十一，遍历就直接两头开双指针，就能从N降到logN。</li>
+</ul>
+<pre><code class="C++">// 1.哈希解法
+class Solution &#123;
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;
+        unordered_map&lt;int,int&gt; hash;
+        for(int i = 0;i &lt; nums.size();i++)
+        &#123;
+           auto it = hash.find(target - nums[i]);
+           if(it != hash.end())
+           &#123;
+               return &#123;it-&gt;second,i&#125;;
+           &#125;
+           hash.emplace(nums[i],i); 
+        &#125;
+        return &#123;&#125;;
+    &#125;
+&#125;;
+
+// 2.双指针解法
+class Solution &#123;
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;
+        if(nums.size() &lt; 2) return &#123;&#125;;
+        int t;
+        // int i;
+        int j;
+        int k;
+        for (int i = 0; i &lt; nums.size() - 1; i++)
+        &#123;
+            t = target - nums[i];
+            for (j = i + 1, k = nums.size() - 1; j &lt;= k; j++, k--)
+            &#123;
+                if(nums[j] == t) &#123;
+                    return &#123;i, j&#125;;
+                &#125;
+                if(nums[k] == t) &#123;
+                    return &#123;i, k&#125;;
+                &#125;
+            &#125;
+        &#125;
+        return &#123;&#125;;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="⭐15-三数之和"><a href="#⭐15-三数之和" class="headerlink" title="⭐15-三数之和"></a>⭐15-三数之和</h2><p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/Users\19263\Desktop\dudulu_blog\source_posts\滑动窗口\image-20231229171723770.png" alt="image-20231229171723770"></p>
+<p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/Users\19263\Desktop\dudulu_blog\source_posts\滑动窗口\image-20231229171748206.png" alt="image-20231229171748206"></p>
+<ul>
+<li><p>相比两数之和，这个题不仅要多考虑一个数，还要考虑结果组合的<strong>去重</strong>，还要输出所有的符合条件的三个数，就麻烦了很多。</p>
+</li>
+<li><p>核心思路就是排序+双指针。排序是个很讨巧的做法，虽然直接上了NlogN的复杂度，但这个问题肉眼可见复杂度只会比NlogN高，所以不差先做个排序。</p>
+</li>
+<li><p>排序后，按从小到大的顺序依次确定a b c，就可以<strong>去重组合</strong>。同时也使得我们可以使用双指针，定住一个a后，b从a+1位置一直往右移，c从尾部一直往左移，b移动一次c会移动若干次，<strong>c每次从a+b+c&gt;t到a+b+c&lt;&#x3D;t的临界时再移动b,b和c相撞后移动a</strong>。时间复杂度就来到了N2。</p>
+</li>
+</ul>
+<pre><code>
+</code></pre>
 
     </div>
     
@@ -429,7 +490,7 @@ public:
     <div id="footer-wrap">
         <div>
             &copy;
-            2023 - 2023 嘟嘟噜の牧场
+            2023 - 2024 嘟嘟噜の牧场
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
