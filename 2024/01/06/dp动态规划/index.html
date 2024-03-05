@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>dp动态规划 | 嘟嘟噜の牧场</title>
+    <title> | 嘟嘟噜の牧场</title>
     <meta name="author" content="嘟嘟噜~" />
     <meta name="description" content="" />
     <meta name="keywords" content="IT 算法 二次元" />
@@ -156,7 +156,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>dp动态规划</h1>
+        <h1></h1>
     </div>
     <div class="info">
         <span class="date">
@@ -166,33 +166,111 @@
             2024/1/6
         </span>
         
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #ff7d73">动态规划</a>
-            </span>
-            
-        </span>
         
     </div>
     
     <div class="content" v-pre>
-        <h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1>
+        <hr>
+<p>title: dp动态规划<br>date: 2024-01-06 22:46:51<br>tags: 动态规划<br>categories: 算法<br>description: 动态鬼划┏┛墓┗┓…(((m -__-)m</p>
+<h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1><p><strong>核心思路</strong>：</p>
+<ul>
+<li>确定数组和f[i]状态定义</li>
+<li>从尾部分析一步，怎么拆解子问题，写出状态转移方程</li>
+<li>从头部（初始条件）开始循环计算至尾部结果（或者计算完整个数组，从里面再挑出结果）</li>
+</ul>
+<h2 id="62-不同路径"><a href="#62-不同路径" class="headerlink" title="62-不同路径"></a>62-不同路径</h2><p><img src="/2024/01/06/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/1.png" alt="image-20240119224021488"></p>
+<ul>
+<li>关键在于理解dp的<strong>无后效性&#x2F;类马尔科夫性</strong>，一个状态值的计算只与某些状态的当前值有关，而不关心前面的值是咋得来的。</li>
+<li>这类题目（有的题目不行）还有空间上的<strong>近邻性</strong>可以利用，从二维数组压缩到一维滚动数组。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int uniquePaths(int m, int n) &#123;
+        vector&lt;int&gt; dp(n);
+        for (int i = 0; i &lt; n; i++)
+        &#123;
+            dp[i] = 1;
+        &#125;
+        for (int i = 0; i &lt; m - 1; i++)
+        &#123;
+            for (int j = 1;j &lt; n;j ++) &#123;
+                dp[j] += dp[j - 1]; 
+            &#125;
+        &#125;
+        return dp[n - 1];
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="64-最小路径和"><a href="#64-最小路径和" class="headerlink" title="64-最小路径和"></a>64-最小路径和</h2><p><img src="/2024/01/06/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/2.png" alt="image-20240119224904777"></p>
+<p><img src="/2024/01/06/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/3.png" alt="image-20240119224921531"></p>
+<ul>
+<li>思路和上题大差不差，我还是用一维滚动数组做的</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int minPathSum(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;
+        int m = grid.size();
+        int n = grid[0].size();
+        vector&lt;int&gt; g(n); // 一维滚动数组
+        int Min;
+        g[0] = grid[0][0];
+        for (int i = 1; i &lt; n; i++)
+        &#123;
+            g[i] = g[i - 1] + grid[0][i];
+        &#125;
+        for (int i = 1; i &lt; m; i++) // 从第二行开始
+        &#123;
+            // 第一列：grid对应值+g当前值
+            g[0] = g[0] + grid[i][0];
+            for (int j = 1;j &lt; n;j ++) &#123;
+                Min = g[j - 1] &lt; g[j] ? g[j - 1] : g[j]; // 确定小值
+                g[j] = Min + grid[i][j];
+            &#125;
+        &#125;
+        return g[n - 1]; // 递归树的起点
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="120-三角形最小路径和"><a href="#120-三角形最小路径和" class="headerlink" title="120-三角形最小路径和"></a>120-三角形最小路径和</h2><p><img src="/2024/01/06/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/4.png" alt="image-20240119225719052"></p>
+<ul>
+<li>思路还是差不多，我这里用了二维滚动数组。（<strong>近邻性</strong>）</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; triangle) &#123;
+        int n = triangle.size();
+        if(n == 1) return triangle[0][0];
+        vector&lt;vector&lt;int&gt;&gt; f(2, vector&lt;int&gt;(n, 0)); // 只用两层vector就够了，做滚动即可
+        int Min;
+        int res;
+        f[0][0] = triangle[0][0];
+        for (int i = 1; i &lt; n; i ++)
+        &#123;
+            for (int j = 0; j &lt; i + 1; j ++)
+            &#123;
+                if(j == 0) &#123;
+                    f[1][j] = triangle[i][j] + f[0][0];
+                &#125;else if(j == i) &#123;
+                    f[1][j] = triangle[i][j] + f[0][j-1];
+                &#125;else &#123;
+                    Min = f[0][j] &lt; f[0][j-1] ? f[0][j] : f[0][j-1];
+                    f[1][j] = triangle[i][j] + Min;
+                &#125;
+            &#125;
+            if(i == n - 1) &#123;
+                res = *(min_element(f[1].begin(), f[1].end()));
+                return res;
+            &#125;
+            for (int k = 0; k &lt; i + 1; k++)
+            &#123;
+                f[0][k] = f[1][k];
+            &#125;
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+
     </div>
     
     

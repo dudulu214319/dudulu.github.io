@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="color: #00a596">滑动窗口</a>
+                <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="color: #ffa2c4">滑动窗口</a>
             </span>
             
         </span>
@@ -466,14 +466,51 @@ public:
 <h2 id="⭐15-三数之和"><a href="#⭐15-三数之和" class="headerlink" title="⭐15-三数之和"></a>⭐15-三数之和</h2><p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/Users\19263\Desktop\dudulu_blog\source_posts\滑动窗口\image-20231229171723770.png" alt="image-20231229171723770"></p>
 <p><img src="/2023/11/29/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/Users\19263\Desktop\dudulu_blog\source_posts\滑动窗口\image-20231229171748206.png" alt="image-20231229171748206"></p>
 <ul>
-<li><p>相比两数之和，这个题不仅要多考虑一个数，还要考虑结果组合的<strong>去重</strong>，还要输出所有的符合条件的三个数，就麻烦了很多。</p>
+<li><p>相比两数之和，这个题不仅要多考虑一个数，还要考虑结果组合的<strong>去重</strong>，还要输出<strong>所有</strong>的符合条件的三个数，就麻烦了很多。</p>
 </li>
-<li><p>核心思路就是排序+双指针。排序是个很讨巧的做法，虽然直接上了NlogN的复杂度，但这个问题肉眼可见复杂度只会比NlogN高，所以不差先做个排序。</p>
+<li><p>核心思路就是<strong>排序+双指针</strong>。排序是个很讨巧的做法，虽然直接上了NlogN的复杂度，但这个问题肉眼可见复杂度只会比NlogN高，所以不差先做个排序。</p>
 </li>
 <li><p>排序后，按从小到大的顺序依次确定a b c，就可以<strong>去重组合</strong>。同时也使得我们可以使用双指针，定住一个a后，b从a+1位置一直往右移，c从尾部一直往左移，b移动一次c会移动若干次，<strong>c每次从a+b+c&gt;t到a+b+c&lt;&#x3D;t的临界时再移动b,b和c相撞后移动a</strong>。时间复杂度就来到了N2。</p>
 </li>
 </ul>
-<pre><code>
+<pre><code class="C++">class Solution &#123;
+public:
+    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;
+        int len = nums.size();
+        vector&lt;vector&lt;int&gt;&gt; ans;
+        if(len &lt; 3) return ans;
+        sort(nums.begin(), nums.end());
+        int a;
+        int b;
+        int c;
+        for (a = 0; a &lt; len - 1; a++)
+        &#123;   
+            if(a &gt; 0 &amp;&amp; nums[a] == nums[a-1]) continue;
+            c = len - 1;
+            for (b = a + 1; b &lt; c; b++)
+            &#123;
+                // 新a带出的新b可以一样
+                if(b &gt; 0 &amp;&amp; nums[b] == nums[b-1] &amp;&amp; b - 1 != a) continue;
+                // 来到了新的b值
+                while (nums[a] + nums[b] + nums[c] &gt; 0 &amp;&amp; b &lt; c)
+                &#123;   
+                    c --;
+                &#125;
+                if(b == c) break; // bc相撞移动a
+                if(nums[a] + nums[b] + nums[c] == 0) &#123; // 检查是否是一个解
+                    vector&lt;int&gt; res = &#123;nums[a],nums[b],nums[c]&#125;;
+                    ans.push_back(res);
+                    c --;
+                    while (c &gt; 0 &amp;&amp; nums[c+1] == nums[c]) // 当下c值已经用了,c变小到新值
+                    &#123;
+                        c --;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
 </code></pre>
 
     </div>
