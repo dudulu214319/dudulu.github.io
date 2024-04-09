@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E9%93%BE%E8%A1%A8/" style="color: #00a596">链表</a>
+                <a href="/tags/%E9%93%BE%E8%A1%A8/" style="color: #03a9f4">链表</a>
             </span>
             
         </span>
@@ -315,6 +315,204 @@ public:
 &#125;
 </code></pre>
 <p><img src="/2024/02/04/%E9%93%BE%E8%A1%A8/6.png" alt="image-20240217222515333"></p>
+<h2 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141-环形链表"></a>141-环形链表</h2><p><img src="/2024/02/04/%E9%93%BE%E8%A1%A8/Users\19263\Desktop\dudulu_blog\source_posts\链表\image-20240401162033586.png" alt="image-20240401162033586"></p>
+<ul>
+<li>思路一：unordered_set 不需要记录键值对，只需要记录值</li>
+<li>思路二：龟兔赛跑，快慢指针</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    bool hasCycle(ListNode *head) &#123;
+        if(head == nullptr)
+        return false;
+
+        //双指针追击的思路，龟兔赛跑思想
+        ListNode * i = head;
+        ListNode * j = head;
+
+        while (1)&#123;
+            if(i-&gt;next == nullptr)return false;
+            if(i-&gt;next-&gt;next == nullptr)return false;
+            i = i-&gt;next-&gt;next;
+            if(i == j)return true;
+            j = j-&gt;next;
+        &#125;
+    &#125;
+&#125;;
+
+class Solution &#123;
+public:
+    bool hasCycle(ListNode *head) &#123;
+        unordered_set&lt;ListNode*&gt; seen;
+        while (head != nullptr) &#123;
+            if (seen.count(head)) &#123;
+                return true;
+            &#125;
+            seen.insert(head);
+            head = head-&gt;next;
+        &#125;
+        return false;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="142-环形链表Ⅱ"><a href="#142-环形链表Ⅱ" class="headerlink" title="142-环形链表Ⅱ"></a>142-环形链表Ⅱ</h2><p><img src="/2024/02/04/%E9%93%BE%E8%A1%A8/Users\19263\Desktop\dudulu_blog\source_posts\链表\image-20240401162954764.png" alt="image-20240401162954764"></p>
+<ul>
+<li>双指针两次相遇法<ul>
+<li>第一次相遇：x+b,x</li>
+<li>fast置于head（特殊情况，第一次相遇位置是head，说明整条链表是个环）</li>
+<li>第二次相遇：x+b+a，x+a在入口相遇</li>
+</ul>
+</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    ListNode *detectCycle(ListNode *head) &#123;
+        if (head == nullptr) return nullptr;
+        if (head-&gt;next == nullptr) return nullptr;
+        ListNode* f = head;
+        ListNode* s = head;
+        while (true)
+        &#123;
+            f = f-&gt;next-&gt;next;
+            s = s-&gt;next;
+            if(f == s)break; //有环
+            if(!f || !f-&gt;next) return nullptr;
+        &#125;
+        if (f == head) // 特殊情况，整个链表是个环
+        &#123;
+            return head;
+        &#125;
+        f = head;
+        while (true)
+        &#123;
+            f = f-&gt;next;
+            s = s-&gt;next;
+            if(f == s) return f; // 第二次相撞，x+b+a,x+a必然在入口停止
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="147-插入排序链表"><a href="#147-插入排序链表" class="headerlink" title="147-插入排序链表"></a>147-插入排序链表</h2><p><img src="/2024/02/04/%E9%93%BE%E8%A1%A8/Users\19263\Desktop\dudulu_blog\source_posts\链表\image-20240401172127696.png" alt="image-20240401172127696"></p>
+<ul>
+<li>和数组的插入排序对比，数组是<strong>从后往前</strong>找插入位置并不断前挪覆盖，链表是每次<strong>从头找</strong>找插入位置。</li>
+<li>经典p c n，相当于先删除c ，p连n，c去插入位置后接。</li>
+<li>需要维护一个<strong>有序链表的最后一个节点lastSorted</strong>。</li>
+</ul>
+<h2 id="148-归并排序链表"><a href="#148-归并排序链表" class="headerlink" title="148-归并排序链表"></a>148-归并排序链表</h2><h2 id="146-LRU缓存"><a href="#146-LRU缓存" class="headerlink" title="146-LRU缓存"></a>146-LRU缓存</h2><ul>
+<li>​	定义双向链表节点<ul>
+<li>构造函数</li>
+</ul>
+</li>
+</ul>
+<pre><code class="C++">class Node &#123; // 双向链表节点
+public:
+    int key, value;
+    Node *prev, *next;
+    Node(int k = 0, int v = 0) : key(k), value(v) &#123;&#125;
+&#125;;
+</code></pre>
+<ul>
+<li>私有变量<ul>
+<li>unordered_map&lt;int, Node*&gt; key_to_node; &#x2F;&#x2F; key-Node*哈希表</li>
+<li>Node* dummy; &#x2F;&#x2F;头节点</li>
+<li>int capacity; &#x2F;&#x2F; 容量</li>
+</ul>
+</li>
+<li>私有方法<ul>
+<li>void remove(Node* x)</li>
+<li>void push_front(Node* x)</li>
+<li>Node* get_node(int key)</li>
+</ul>
+</li>
+<li>公共方法<ul>
+<li>构造函数 dummy构成环形</li>
+<li>int get()直接调用get_node</li>
+<li>void put(key, value)<ul>
+<li>检查有无，是否要覆盖auto</li>
+<li>New节点</li>
+<li>维护哈希</li>
+<li>push_front</li>
+<li>如果超过容量<ul>
+<li>取dummy-&gt;prev</li>
+<li>删哈希</li>
+<li>删节点</li>
+<li>delete释放内存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="C++">class LRUCache &#123;
+private:
+    unordered_map&lt;int, Node*&gt; key_to_node; // key-Node*哈希表
+    Node* dummy; //头节点
+    int capacity; // 容量
+
+    // 删除一个节点（抽出一本书）
+    void remove(Node* x) &#123;
+        // Node* x = key_to_node[key];
+        x-&gt;prev-&gt;next = x-&gt;next;
+        x-&gt;next-&gt;prev = x-&gt;prev;
+    &#125;
+
+    // 在链表头添加一个节点（把一本书放在最上面）
+    void push_front(Node* x) &#123;
+        x-&gt;prev = dummy;
+        x-&gt;next = dummy-&gt;next;
+        dummy-&gt;next = x;
+        x-&gt;next-&gt;prev = x;
+    &#125;
+
+    // 根据key查找【节点指针】，不存在返回null，以及顺带着remove和push
+    Node* get_node(int key) &#123;
+        auto it = key_to_node.find(key); // count?
+        if(it == key_to_node.end()) &#123;
+            return nullptr;
+        &#125;
+        auto node = it-&gt;second;
+        remove(node);
+        push_front(node);
+        return node;
+    &#125;
+
+public:
+    LRUCache(int capacity): capacity(capacity), dummy(new Node()) &#123;
+        // this-&gt;capacity = capacity;
+        // dummy = new Node();
+        dummy-&gt;prev = dummy;
+        dummy-&gt;next = dummy;
+    &#125;
+    
+    int get(int key) &#123;
+        if(get_node(key)) &#123;
+            return get_node(key)-&gt;value;
+        &#125;else &#123;
+            return -1;
+        &#125;
+    &#125;
+    
+    void put(int key, int value) &#123; // 逐步维护链表和哈希表
+        auto node = get_node(key); // auto承接可能的空
+        if (node)
+        &#123;
+            node-&gt;value = value;
+            return;
+        &#125;
+        Node* new_node = new Node(key, value); // new指针
+        key_to_node[key] = new_node; // 维护哈希
+        push_front(new_node);
+        if (key_to_node.size() &gt; capacity)
+        &#123;
+            auto back_node = dummy-&gt;prev;
+            key_to_node.erase(back_node-&gt;key); // 维护哈希
+            remove(back_node);
+            delete back_node; // 没有再放到顶的操作
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
 
     </div>
     

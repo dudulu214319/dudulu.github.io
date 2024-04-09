@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">项目笔记</a>
+                <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">项目笔记</a>
             </span>
             
         </span>
@@ -192,18 +192,144 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="秒杀项目复盘总结"><a href="#秒杀项目复盘总结" class="headerlink" title="秒杀项目复盘总结"></a>秒杀项目复盘总结</h1><p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1.jpg" alt="IMG_20240302_224747"></p>
+        <h1 id="秒杀项目复盘总结"><a href="#秒杀项目复盘总结" class="headerlink" title="秒杀项目复盘总结"></a>秒杀项目复盘总结</h1><p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\b20da9d3020d4668a865c12b3cd2aadd.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1.jpg" alt="IMG_20240302_224747"></p>
 <p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/2.png" alt="image-20240303175356404"></p>
 <ul>
-<li>难点：0&#x2F;1处理，内存&#x2F;redis标记，重复抢购（建立唯一索引和redis对象缓存）</li>
+<li>难点：0&#x2F;1处理，内存（EmptyStockMap.put(goodsId, true)）&#x2F;redis标记（），重复抢购（建立唯一索引？和redis对象缓存）</li>
 <li>最核心的东西就是对【大量用户同时点击秒杀按钮发起访问】的处理<ul>
 <li>页面优化（缓存，静态化）：减少用户到服务端来“读”数据，或者让他们读更少的数据</li>
-<li>服务优化：并发写——库存预减，redis分布式锁，秒杀事务原子化，MQ流量削峰，客户端异步轮询</li>
+<li>服务优化：并发写——lua脚本原子化库存预减，redis分布式锁，服务端秒杀事务原子化，MQ流量削峰，客户端异步轮询</li>
 <li>安全优化：验证码，路径隐藏，拦截器interceptor访问限流与AugumentResolver通过UserContext交互。</li>
 </ul>
 </li>
 </ul>
 <h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/390101182096609280">https://www.nowcoder.com/discuss/390101182096609280</a></p>
+<h3 id="为什么用消息队列？为什么选用RabbitMQ而不是Kafka-RocketMQ"><a href="#为什么用消息队列？为什么选用RabbitMQ而不是Kafka-RocketMQ" class="headerlink" title="为什么用消息队列？为什么选用RabbitMQ而不是Kafka&#x2F;RocketMQ?"></a>为什么用消息队列？为什么选用RabbitMQ而不是Kafka&#x2F;RocketMQ?</h3><p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406231758612.png" alt="image-20240406231758612"></p>
+<ul>
+<li>解耦（A系统RPC调用BCD新增E系统的接口？）</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406115540692.png" alt="image-20240406115540692"></p>
+<ul>
+<li>异步</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406123533533.png" alt="image-20240406123533533"></p>
+<ul>
+<li><p>削峰（OrderService.seckill(user, goodsVo)与MySQL交互，写在receiver里），大不了就海量积压嘛，MySQL按照自己的上限性能慢慢处理就好。</p>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406165948251.png" alt="image-20240406165948251"></p>
+</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406123703979.png" alt="image-20240406123703979"></p>
+<ul>
+<li>缺点<ul>
+<li>可用性降低（MQ挂了也就用不了了）</li>
+<li>复杂度提高（需要解决顺序性、可靠性、消息丢失、重复消费等一系列问题）</li>
+<li><strong>一致性问题</strong>——异步消费者未必能”正确“处理数据，需要做专门的库存检测</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何解决RabbitMQ消息丢失的问题？"><a href="#如何解决RabbitMQ消息丢失的问题？" class="headerlink" title="如何解决RabbitMQ消息丢失的问题？"></a>如何解决RabbitMQ消息丢失的问题？</h3><ul>
+<li>生产者丢失（网络波动），可以使用<strong>事务机制</strong>&#x2F;<strong>异步confirm机制</strong>（MQ回复ack，nack）</li>
+<li>queue丢失，设置<strong>持久化</strong></li>
+<li>消费者提前ACK，但处理消息（验证库存，重复和创建订单）时可能寄，可以改成<strong>手动提交ACK</strong></li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406163317023.png" alt="image-20240406163317023"></p>
+<h3 id="如何保证RabbitMQ消息的顺序性？"><a href="#如何保证RabbitMQ消息的顺序性？" class="headerlink" title="如何保证RabbitMQ消息的顺序性？"></a>如何保证RabbitMQ消息的顺序性？</h3><ul>
+<li>没遇到，因为我是单机。。。</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406163939193.png" alt="image-20240406163939193"></p>
+<h3 id="限流算法"><a href="#限流算法" class="headerlink" title="限流算法"></a>限流算法</h3><ul>
+<li><p>令牌桶</p>
+<ul>
+<li>令牌桶的好处之一就是可以方便地应对 突发出口流量（后端能力的提升，最适合秒杀）。</li>
+<li>令牌桶的大小固定，令牌的<strong>产生速度</strong>固定（更上一层作了限流），但是消耗令牌（即请求）速度不固定（可以应对一些某些时间请求过多的情况）；每个请求都会从令牌桶中取出令牌，如果没有令牌则丢弃该次请求（消耗比发放快 ）。</li>
+<li><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\a22bfabb832f481d9055d26c52656f1b.png" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+<li><p>漏桶</p>
+<ul>
+<li>漏桶大小固定，处理速度固定，但请求进入速度不固定（在突发情况请求过多时，会丢弃过多的请求）</li>
+<li><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\c65a944721a5d02e54773cabf9291afe.png" alt="2002319-20210220223842536-838208163"></li>
+</ul>
+</li>
+<li><p>计数器</p>
+<ul>
+<li>在一段时间间隔内（时间窗&#x2F;时间区间），处理请求的最大数量固定，超过部分不做处理。（直接报错）</li>
+<li><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240408111810487.png" alt="image-20240408111810487"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Spring相关"><a href="#Spring相关" class="headerlink" title="Spring相关"></a>Spring相关</h3><h4 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h4><ul>
+<li>@Configuration注解标识的类中声明了1个或者多个@Bean方法，Spring容器可以使用这些方法来注入Bean。</li>
+<li>这个方法就向Spring容器注入了一个类型是MyBean名字是myBean的Bean</li>
+</ul>
+<pre><code class="java">@Configuration
+public class AppConfig &#123;
+  //这个方法就向Spring容器注入了一个类型是MyBean名字是myBean的Bean
+  @Bean
+  public MyBean myBean() &#123;
+     // instantiate, configure and return bean ...
+  &#125;
+&#125;
+</code></pre>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240407113242390.png" alt="image-20240407113242390"></p>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\image-20240406225949861.png" alt="image-20240406225949861"></p>
+<h4 id="Transactional"><a href="#Transactional" class="headerlink" title="@Transactional"></a>@Transactional</h4><ul>
+<li>加在seckill方法上</li>
+<li>@Transactional 注解也可以添加到类级别上。当把@Transactional 注解放在类级别时，表示<strong>所有该类的公共方法</strong>都配置相同的事务属性信息</li>
+<li>但是如果对 Spring 中的 @transaction 注解的事务管理理解的不够透彻，就很容易出现错误，比如事务应该回滚（rollback）而没有回滚事务的问题。</li>
+<li><strong>分布式事务：</strong>将减库存与生成订单操作组合为一个事务。要么一起成功，要么一起失败。</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\v2-a36649d10f5527e198f6eb35b63e9213_720w.webp" alt="img"></p>
+<h4 id="Component"><a href="#Component" class="headerlink" title="@Component"></a>@Component</h4><ul>
+<li>表示一个带注释的类是一个“组件”，成为Spring管理的Bean。当使用基于注解的配置和类路径扫描时，这些类被视为自动检测的候选对象。</li>
+</ul>
+<h4 id="HandlerInterceptor"><a href="#HandlerInterceptor" class="headerlink" title="HandlerInterceptor"></a>HandlerInterceptor</h4><ul>
+<li>preHandle函数</li>
+</ul>
+<h2 id="分布式锁（lua脚本、redis事务）"><a href="#分布式锁（lua脚本、redis事务）" class="headerlink" title="分布式锁（lua脚本、redis事务）"></a>分布式锁（lua脚本、redis事务）</h2><ul>
+<li>在多线程环境中，如果多个线程同时访问共享资源（例如商品库存、订单），会发生数据竞争，可能会导致出现脏数据或者系统问题，威胁到程序的正常运行。</li>
+<li>区分于本地锁</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\jvm-local-lock.png" alt="本地锁"></p>
+<ul>
+<li>我们需要用到分布式锁，这样的话，即使多个线程不在同一个 JVM 进程中也能获取到同一把锁，进而实现<strong>共享资源</strong>的互斥访问。</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\distributed-lock.png" alt="分布式锁"></p>
+<ul>
+<li>秒杀中实际使用的是lua脚本，在redis 的官方文档中有描述lua脚本在执行的时候具有排他性，不允许其他命令或者脚本执行，类似于事务。是存在的另一个问题是，它在执行的过程中如果一个命令报错不会回滚已执行的命令，所以要保证lua脚本的正确性。</li>
+<li>call在执行命令的时候如果报错，会抛出reisd错误终端执行，可以稍微比普通事务好一点。</li>
+</ul>
+<h2 id="秒杀系统面临的问题有哪些？"><a href="#秒杀系统面临的问题有哪些？" class="headerlink" title="秒杀系统面临的问题有哪些？"></a>秒杀系统面临的问题有哪些？</h2><ol>
+<li>高并发</li>
+<li>超卖、重复卖问题</li>
+<li>脚本恶意请求</li>
+<li>mysql数据库扛不住</li>
+<li>加了缓存之后的缓存三大问题（击穿、穿透、雪崩）</li>
+</ol>
+<h2 id="你项目中难的难点是什么？"><a href="#你项目中难的难点是什么？" class="headerlink" title="你项目中难的难点是什么？"></a>你项目中难的难点是什么？</h2><h3 id="限流、削峰部分的设计"><a href="#限流、削峰部分的设计" class="headerlink" title="限流、削峰部分的设计"></a>限流、削峰部分的设计</h3><ul>
+<li>采取发放令牌机制（控制流量），根据商品id和一串<code>uuid</code>产生一个令牌存入<code>redis</code>中同时引入了秒杀大闸，目的是流量控制，比如当前活动商品只有100件，我们就发放500个令牌，秒杀前会先发放令牌，令牌发放完则把后来的用户挡在这一层之外，控制了流量。</li>
+<li><strong>高并发流量的限制（泄洪）</strong>：利用<strong>线程池</strong>技术，维护一个具有固定线程数的线程池。设置最大线程数来限制浪涌流量。每次只放固定多用户访问服务，其他用户排队。另外一种实现方式就是<code>J.U.C</code>包中的<strong>信号量</strong>（Semaphore）机制。可以有效的限制线程的进入。</li>
+<li>异步下单</li>
+</ul>
+<h3 id="用户登录的问题（分布式会话）"><a href="#用户登录的问题（分布式会话）" class="headerlink" title="用户登录的问题（分布式会话）"></a>用户登录的问题（分布式会话）</h3><ul>
+<li>做完了分布式扩展之后，发现有时候已经登录过了但是系统仍然会提示去登录，后来经过查资料发现是cookie和session的问题。然后通过设置cookie<strong>跨域分享</strong>以及利用<code>redis</code>存储token信息得以解决。</li>
+</ul>
+<h2 id="线程池技术中核心线程数的取值有经验值吗？"><a href="#线程池技术中核心线程数的取值有经验值吗？" class="headerlink" title="线程池技术中核心线程数的取值有经验值吗？"></a>线程池技术中核心线程数的取值有经验值吗？</h2><ul>
+<li><p>CPU密集型业务：N+1</p>
+</li>
+<li><p>IO密集型业务：2N+1</p>
+</li>
+</ul>
+<h2 id="为什么用Redis做秒杀缓存？"><a href="#为什么用Redis做秒杀缓存？" class="headerlink" title="为什么用Redis做秒杀缓存？"></a>为什么用Redis做秒杀缓存？</h2><ul>
+<li>高性能（内存快）</li>
+<li>高并发（单台设备的 Redis 的 QPS 是 MySQL 的 10 倍，Redis 单机的 QPS 能轻松破 10w，而 MySQL 单机的 QPS 很难破 1w），应该是依赖于epooll多路复用</li>
+<li>丰富的数据结构（跳表啥的）</li>
+<li>即时终止</li>
+<li>方便异步削峰</li>
+<li>binlog异步更新缓存</li>
+</ul>
+<p><img src="/2024/03/02/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\秒杀项目总结\watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21pY3JvX2h6,size_16,color_FFFFFF,t_70.png" alt="[图2]"></p>
 
     </div>
     

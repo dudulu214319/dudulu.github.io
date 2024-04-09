@@ -268,7 +268,35 @@ public:
             &#125;else&#123;
                 return mid;
             &#125;
-            
+        &#125;
+        return -1;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="搜索旋转排序数组"><a href="#搜索旋转排序数组" class="headerlink" title="搜索旋转排序数组"></a>搜索旋转排序数组</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/Users\19263\Desktop\dudulu_blog\source_posts\二分查找与中序遍历与搜索树\image-20240310225453049.png" alt="image-20240310225453049"></p>
+<ul>
+<li><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/Users\19263\Desktop\dudulu_blog\source_posts\二分查找与中序遍历与搜索树\IMG_20240310_225527.jpg" alt="IMG_20240310_225527">几个关键理解：<ul>
+<li>二分查找的四要素：l,r,m,t。根据t和[l,m]和[m,r]落在哪个区间里，进行删除一半区间的操作。</li>
+<li>这里[l,m]和[m,r]一定有一个是无序一个是有序，看t落在哪个里。</li>
+<li>t总能落到一个有序区间,落进有序区间后就是普通的二分查找了。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) &#123;
+        int left = 0, right = nums.size() - 1;
+        while (left &lt;= right)
+        &#123;
+            int mid = (left + right) &gt;&gt; 1;
+            if(nums[mid] == target) return mid;
+            if(nums[left] &lt;= nums[mid]) &#123;
+                 // left 到 mid 是顺序区间
+                (target &gt;= nums[left] &amp;&amp; target &lt; nums[mid]) ? right = mid - 1 : left = mid + 1; // right右移相当于mid右移，left左移相当于mid左移
+            &#125;else &#123;
+                // mid 到 right 是顺序区间
+                (target &gt; nums[mid] &amp;&amp; target &lt;= nums[right]) ? left = mid + 1 : right = mid - 1;
+            &#125;
         &#125;
         return -1;
     &#125;
@@ -386,7 +414,7 @@ public:
     &#125;
 &#125;;
 </code></pre>
-<h2 id="在排序数组中查找元素的第一个和最后一个位置"><a href="#在排序数组中查找元素的第一个和最后一个位置" class="headerlink" title="在排序数组中查找元素的第一个和最后一个位置"></a>在排序数组中查找元素的第一个和最后一个位置</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/8.png" alt="image-20231104233943320"></p>
+<h2 id="不同的二叉搜索树"><a href="#不同的二叉搜索树" class="headerlink" title="不同的二叉搜索树"></a>不同的二叉搜索树</h2><h2 id="在排序数组中查找元素的第一个和最后一个位置（找区间）"><a href="#在排序数组中查找元素的第一个和最后一个位置（找区间）" class="headerlink" title="在排序数组中查找元素的第一个和最后一个位置（找区间）"></a>在排序数组中查找元素的第一个和最后一个位置（找区间）</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/8.png" alt="image-20231104233943320"></p>
 <p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/9.jpg" alt="img"></p>
 <h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
 public:
@@ -396,12 +424,12 @@ public:
     int first = -1;
     int last = -1;
     vector&lt;int&gt; ans;
-    // 找第一个等于target的位置
+    // 找第一个等于target的位置，循环【完成】后first就是第一个位置
     while (left &lt;= right) &#123;
       int middle = (left + right) / 2;
       if (nums[middle] == target) &#123;
-        first = middle;
-        right = middle - 1; //重点
+        first = middle; // 暂定一个
+        right = middle - 1; //重点，m在区间里，为了更逼近左端点还得继续左移m
       &#125; else if (nums[middle] &gt; target) &#123;
         right = middle - 1;
       &#125; else &#123;
@@ -409,14 +437,14 @@ public:
       &#125;
     &#125;
 
-    // 最后一个等于target的位置
+    // 最后一个等于target的位置，循环【完成】后second就是第二个位置
     left = 0;
     right = nums.size() - 1;
     while (left &lt;= right) &#123;
       int middle = (left + right) / 2;
       if (nums[middle] == target) &#123;
-        last = middle;
-        left = middle + 1; //重点
+        last = middle; //暂定一个
+        left = middle + 1; //重点，m在区间里，为了更逼近又端点还得继续右移m
       &#125; else if (nums[middle] &gt; target) &#123;
         right = middle - 1;
       &#125; else &#123;
@@ -429,12 +457,12 @@ public:
 </code></pre>
 <h2 id="将有序数组转换为二叉搜索树"><a href="#将有序数组转换为二叉搜索树" class="headerlink" title="将有序数组转换为二叉搜索树"></a>将有序数组转换为二叉搜索树</h2><p><img src="/2023/10/31/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A0%91/10.png" alt="image-20231109171308745"></p>
 <h3 id="关键点-5"><a href="#关键点-5" class="headerlink" title="关键点"></a>关键点</h3><ul>
-<li>其实对于有序数列来说随便一个点提起来都是一棵二叉搜索树，但是如果要满足<strong>高度平衡</strong>的条件，就需要不断用二分查找确定根节点</li>
+<li>其实对于有序数列来说随便一个点提起来都是一棵二叉搜索树，但是如果要满足<strong>高度平衡</strong>的条件，就需要不断用<strong>二分查找</strong>确定根节点</li>
 <li>然后不断递归实现即可</li>
 </ul>
 <h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><pre><code class="C++">class Solution &#123;
 public:
-    TreeNode* helpler(vector&lt;int&gt;&amp; nums, int low, int high) &#123;
+    TreeNode* helpler(vector&lt;int&gt;&amp; nums, int low, int high) &#123; // 返回一棵以nums[mid]为根节点的平衡树
         if(low &gt; high) return nullptr;
         int mid = (low + high) &gt;&gt; 1;
         TreeNode* node = new TreeNode(nums[mid]);

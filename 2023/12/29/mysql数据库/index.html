@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
+                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #03a9f4">数据库</a>
             </span>
             
         </span>
@@ -195,7 +195,7 @@
         <h1 id="mysql数据库"><a href="#mysql数据库" class="headerlink" title="mysql数据库"></a>mysql数据库</h1><h2 id="⭐sql执行顺序"><a href="#⭐sql执行顺序" class="headerlink" title="⭐sql执行顺序"></a>⭐sql执行顺序</h2><p><img src="/2023/12/29/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/1.png" alt="image-20231231115451045"></p>
 <p><img src="/2023/12/29/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/2.png" alt="image-20231231115256501"></p>
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
-<li><p>先执行<strong>单行函数</strong>生成新列别名（？），列定完了再用WHERE筛选行，再使用<strong>聚合函数</strong>和GROUP BY聚合行。行都处理完了再用SELECT处理列。</p>
+<li><p>先执行<strong>单行函数</strong>生成新列别名（？），列定完了再用WHERE筛选行（但新列别名好像不能直接用于查询，但可以用于排序），再使用<strong>聚合函数</strong>和GROUP BY聚合行。行都处理完了再用SELECT处理列。</p>
 </li>
 <li><p><strong>别名</strong>的使用。都在SELECT里平级AS出来的别名在SELECT里是不能用的，但在后面的WHERE和HAVING里可以用。</p>
 <blockquote>
@@ -215,6 +215,9 @@
 </li>
 </ul>
 <p><img src="/2023/12/29/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/5.png" alt="image-20231231123456157"></p>
+<ul>
+<li>IFNULL(column_name, 0) 处理连接时产生的NULL</li>
+</ul>
 
     </div>
     

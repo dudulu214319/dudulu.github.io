@@ -196,16 +196,16 @@
 <pre><code class="C++">int Partition(vector&lt;int&gt;&amp; arr, int left, int right) &#123;
     int pivot = arr[left];
     while (left &lt; right) &#123;
-        while (left &lt; right &amp;&amp; arr[right] &gt;= pivot) &#123;
+        while (left &lt; right &amp;&amp; arr[right] &gt;= pivot) &#123; // right左移，right确定小的时候
             right --;
         &#125;
-        arr[left] = arr[right];
-        while (left &lt; right &amp;&amp; arr[left] &lt;= pivot) &#123;
+        arr[left] = arr[right]; // 赋给left
+        while (left &lt; right &amp;&amp; arr[left] &lt;= pivot) &#123;// left现在小吧，不断右移，确定大的时候
             left ++;
         &#125;
-        arr[right] = arr[left];
+        arr[right] = arr[left];// 赋给right
     &#125;
-    arr[left] = pivot;
+    arr[left] = pivot; // 最开始覆盖的pivot值给left
     return left;
 &#125;
 
@@ -227,7 +227,7 @@ vector&lt;int&gt; MySort(vector&lt;int&gt;&amp; arr) &#123;
 vector(int nSize):创建一个vector,元素个数为nSize
 vector(int nSize,const t&amp; t):创建一个vector，元素个数为nSize,且值均为t
 </code></pre>
-<pre><code class="C++">void Merge(vector&lt;int&gt;&amp; arr, int start, int end, vector&lt;int&gt;&amp; temp) &#123;
+<pre><code class="C++">void Merge(vector&lt;int&gt;&amp; arr, int start, int end, vector&lt;int&gt;&amp; temp) &#123; // 传入的是start 到mid以及mid+1到end两段各自有序的数组
     int left = start;
     int mid = (start+end) / 2;
     int right = mid + 1;
@@ -250,11 +250,11 @@ vector(int nSize,const t&amp; t):创建一个vector，元素个数为nSize,且�
     &#125;
 &#125;
 
-void MergeSort(vector&lt;int&gt;&amp; arr, int start, int end, vector&lt;int&gt;&amp; temp) &#123;
-    if(start &lt; end) &#123;
+void MergeSort(vector&lt;int&gt;&amp; arr, int start, int end, vector&lt;int&gt;&amp; temp) &#123; // 需要一个temp辅助merge拷贝回原数组 O(n)复杂度 
+    if(start &lt; end) &#123; // start == end的时候是递归终点，啥都不做直接return
         int mid = (start + end) / 2;
-        MergeSort(arr, start, mid, temp);
-        MergeSort(arr, mid + 1, end, temp);
+        MergeSort(arr, start, mid, temp); // 先排好左边
+        MergeSort(arr, mid + 1, end, temp); //再排好右边
         Merge(arr, start, end, temp);
     &#125;
 &#125;
@@ -349,10 +349,10 @@ vector&lt;int&gt; MySort(vector&lt;int&gt;&amp; arr) &#123;
     int n = arr.size();
     int temp;
 
-    for(int i = 1;i &lt; n;i ++) &#123;
-            temp = arr[i];
+    for(int i = 1;i &lt; n;i ++) &#123; // i就是抽新牌
+            temp = arr[i]; // 备份
             int j;
-            for(j = i-1;j &gt;= 0 &amp;&amp; arr[j] &gt; temp;j --) &#123;
+            for(j = i-1;j &gt;= 0 &amp;&amp; arr[j] &gt; temp;j --) &#123; // j在后面不断前移覆盖数组
                 arr[j+1] = arr[j];
             &#125;
             // arr[j] &lt;= temp, arr[j+1] &gt; temp
@@ -611,7 +611,7 @@ public:
 &#125;;
 </code></pre>
 <h3 id="回到堆排序"><a href="#回到堆排序" class="headerlink" title="回到堆排序"></a>回到堆排序</h3><ul>
-<li>原理：一个arr数组可以平铺到一棵完全二叉树里，一一对应的关系，所以我们可以把arr数组<strong>视为</strong>一个堆，并使用堆的性质排序。</li>
+<li>原理：一个arr数组可以平铺到一棵<strong>完全二叉树</strong>里，一一对应的关系，所以我们可以把arr数组<strong>视为</strong>一个堆，并使用堆的性质排序。</li>
 <li>本质是一种<strong>选择排序</strong>，不断地从<strong>未排序序列</strong>里选出最大值放在arr[0]，然后和<strong>已排序序列</strong>首部的前一个数<strong>交换</strong>。这样大顶堆可以实现从小到大排序，小顶堆可以实现从大到小排序。</li>
 <li>大&#x2F;小顶堆本身不是一种很强的数据结构，只能保证上面的数比下面的大&#x2F;小，左右没有限制。</li>
 <li>下面的gif图有问题，没有完成大顶堆化。</li>

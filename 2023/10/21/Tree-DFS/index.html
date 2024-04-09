@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91/" style="color: #ff7d73">树</a>
+                <a href="/tags/%E6%A0%91/" style="color: #ffa2c4">树</a>
             </span>
             
         </span>
@@ -359,7 +359,7 @@ public:
 <p><img src="/2023/10/21/Tree-DFS/11.jpg" alt="img"></p>
 <h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><ul>
 <li>如图所示，关键在于意识到<strong>对于树是否平衡的判断可以在计算树的高（深）度的递归过程中顺带实现。</strong></li>
-<li>基于后序遍历</li>
+<li>基于<strong>后序遍历</strong></li>
 </ul>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="c++">class Solution &#123;
 public:
@@ -367,7 +367,7 @@ public:
         if(!root) return 0;
         int left_h = height(root-&gt;left);
         int right_h = height(root-&gt;right);
-        if(left_h == -1 || right_h == -1 || abs(left_h-right_h) &gt; 1)&#123;
+        if(left_h == -1 || right_h == -1 || abs(left_h-right_h) &gt; 1)&#123; // 后面有-1就直接-1
             return -1;
         &#125;
         return std::max(left_h, right_h) + 1;
@@ -399,6 +399,49 @@ public:
         if(left) return left;
         if(right) return right;
         return nullptr;
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="⭐从前序与中序遍历序列构造二叉树"><a href="#⭐从前序与中序遍历序列构造二叉树" class="headerlink" title="⭐从前序与中序遍历序列构造二叉树"></a>⭐从前序与中序遍历序列构造二叉树</h2><p><img src="/2023/10/21/Tree-DFS/Users\19263\Desktop\dudulu_blog\source_posts\Tree-DFS\image-20240311160150173.png" alt="image-20240311160150173"></p>
+<p><img src="/2023/10/21/Tree-DFS/Users\19263\Desktop\dudulu_blog\source_posts\Tree-DFS\IMG_20240312_232621.jpg" alt="IMG_20240312_232621"></p>
+<p><img src="/2023/10/21/Tree-DFS/Users\19263\Desktop\dudulu_blog\source_posts\Tree-DFS\qq_pic_merged_1710231763498.jpg" alt="qq_pic_merged_1710231763498"></p>
+<ul>
+<li>可以理解为一道DFS的模板题目</li>
+<li>二叉树的DFS问题，大多是处理一步（处理根节点），然后递归处理左右子树，最后返回根节点。</li>
+<li>终止条件反而需要仔细推敲，一般是处理到返回NULL。</li>
+</ul>
+<pre><code class="C++">class Solution &#123;
+public:
+    unordered_map&lt;int, int&gt; index;
+
+    TreeNode* buildTree_Helpler (const vector&lt;int&gt;&amp; preorder, const vector&lt;int&gt;&amp; inorder, int preorder_left,
+    int preorder_right, int inorder_left, int inorder_right) &#123;
+        if(preorder_left &gt; preorder_right || inorder_left &gt; inorder_right) &#123;
+            return nullptr;
+        &#125;
+
+        // 前序遍历中的第一个节点就是根节点
+        int preorder_root = preorder_left;
+        // 在中序遍历中定位根节点位置
+        int inorder_root = index[preorder[preorder_root]];
+
+        // 先把根节点建立出来
+        TreeNode* root = new TreeNode(preorder[preorder_root]);
+        // 得到左子树中的节点数目
+        int size_left_subtree = inorder_root - inorder_left;
+
+        root-&gt;left = buildTree_Helpler(preorder, inorder, preorder_left + 1, preorder_left + size_left_subtree, inorder_left, inorder_root - 1);
+        root-&gt;right = buildTree_Helpler(preorder, inorder, preorder_left + size_left_subtree + 1, preorder_right, inorder_root + 1, inorder_right);
+
+        return root;
+    &#125;
+
+    TreeNode* buildTree(vector&lt;int&gt;&amp; preorder, vector&lt;int&gt;&amp; inorder) &#123;
+        int n = preorder.size();
+        for (int i = 0; i &lt; n; ++i) &#123;
+            index[inorder[i]] = i;
+        &#125;
+        return buildTree_Helpler(preorder, inorder, 0, n-1, 0, n-1);
     &#125;
 &#125;;
 </code></pre>

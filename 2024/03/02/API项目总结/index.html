@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>API项目总结 | 嘟嘟噜の牧场</title>
+    <meta name="author" content="嘟嘟噜~" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="IT 算法 二次元" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.org" />
+<script src="https://cdn.staticfile.org/vue/3.3.4/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.8.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.js"></script>
+<script src="https://cdn.staticfile.org/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.16.8/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/mark.png" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <i class="fa-solid fa-piggy-bank fa-bounce"></i>
+            <span>&ensp;嘟嘟噜の牧场</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;嘟嘟噜の牧场</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>API项目总结</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/2
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E9%A1%B9%E7%9B%AE/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                项目
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">项目笔记</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="API网关项目复盘总结"><a href="#API网关项目复盘总结" class="headerlink" title="API网关项目复盘总结"></a>API网关项目复盘总结</h1><p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407213526724.png" alt="image-20240407213526724"></p>
+<h2 id="什么是API网关？为什么引入网关？"><a href="#什么是API网关？为什么引入网关？" class="headerlink" title="什么是API网关？为什么引入网关？"></a>什么是API网关？为什么引入网关？</h2><ul>
+<li>微服务背景下，一个系统被拆分为多个服务，但是像安全认证，流量控制，日志，监控等功能是<strong>每个服务都需要的</strong>，没有网关的话，我们就需要在每个服务中单独实现，这使得我们做了很多重复的事情并且没有一个全局的视图来统一管理这些功能。</li>
+<li>网关可以为我们提供请求转发、安全认证（身份&#x2F;权限认证）、流量控制、负载均衡、降级熔断、日志、监控、参数校验、协议转换等功能。</li>
+<li><strong>请求转发</strong>（路由） + <strong>请求过滤</strong>（Filter）。</li>
+</ul>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\spring-cloud-gateway-workflow.png" alt="Spring Cloud Gateway 的工作流程"></p>
+<h2 id="Starter"><a href="#Starter" class="headerlink" title="Starter"></a>Starter</h2><p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220419943.png" alt="image-20240407220419943"></p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220427283.png" alt="image-20240407220427283"></p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220438183.png" alt="image-20240407220438183"></p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220728963.png" alt="image-20240407220728963"></p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220754326.png" alt="image-20240407220754326"></p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407220808362.png" alt="image-20240407220808362"></p>
+<h2 id="路由转发"><a href="#路由转发" class="headerlink" title="路由转发"></a>路由转发</h2><ul>
+<li>yml里配置:&#x2F;api&#x2F;** ——&gt; <a target="_blank" rel="noopener" href="http://localhost:8123/api/">http://localhost:8123/api/</a>**</li>
+</ul>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\image-20240407221401159.png" alt="image-20240407221401159"></p>
+<h2 id="过滤器和转发的顺序？"><a href="#过滤器和转发的顺序？" class="headerlink" title="过滤器和转发的顺序？"></a>过滤器和转发的顺序？</h2><p>总结：客户端的请求先通过匹配规则找到合适的路由，就能映射到具体的服务。然后请求经过过滤器处理后转发给具体的服务，服务处理后，再次经过过滤器处理，最后返回给客户端。</p>
+<p><img src="/2024/03/02/API%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/Users\19263\Desktop\dudulu_blog\source_posts\API项目总结\c532b355a6828d5bc1b356bfeaad05cd.png" alt="img"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2023 - 2024 嘟嘟噜の牧场
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;嘟嘟噜~
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+	<div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </div>
+    <script src="/js/main.js"></script>
+	<style>
+	.text::after{
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 5px;
+            height: 20px;
+            width: 3px;     
+            background-color: #1e3e3f;
+            animation: san 0.5s steps(1) infinite;
+        }
+        @keyframes san{
+            0%,100%{
+                background-color: #1e3e3f;
+            }
+            50%{
+               background-color: transparent;
+            }
+
+        }
+	</style>
+    <script>
+	var text = document.querySelector('.text');
+	const txt  =["Here's a dudulu..."]; 
+	var index=0;
+	var xiaBiao= 0;
+	var huan = true;
+	setInterval(function(){
+		if(huan){             
+			text.textContent = txt[xiaBiao].slice(0,++index);
+		}
+		else{
+			text.textContent = txt[xiaBiao].slice(0,index--);
+		}
+		
+		if(index==txt[xiaBiao].length+3)
+		{
+			huan = false;
+		}
+		else if(index<0)
+		{   
+			index = 0;
+			huan = true;
+			xiaBiao++;
+			if(xiaBiao>=txt.length)
+			{   
+				xiaBiao=0; 
+			}
+		}
+	},200)
+	</script>
+	<script type="text/javascript"
+		color="150,150,150" opacity='1' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+	</script>
+	<style>
+	.back-to-top {
+	  right: 60px;
+	  width: 70px;  //图片素材宽度
+	  height: 900px;  //图片素材高度
+	  top: -900px;
+	  bottom: unset;
+	  transition: all .5s ease-in-out;
+	  background: url("/images/scroll.png");
+
+	  //隐藏箭头图标
+	  > i {
+		display: none;
+	  }
+
+	  &.back-to-top-on {
+		bottom: unset;
+		top: 100vh < (900px + 200px) ? calc( 100vh - 900px - 200px ) : 0px;
+	  }
+	}
+	</style>
+    
+    
+
+
+
+
+    
+</body>
+</html>

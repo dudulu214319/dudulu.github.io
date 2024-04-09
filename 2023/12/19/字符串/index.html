@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="color: #ff7d73">字符串</a>
+                <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="color: #00a596">字符串</a>
             </span>
             
         </span>
@@ -225,12 +225,16 @@ cout&lt;&lt;s&lt;&lt;endl;  //输出字符串
 <pre><code class="C++">s1 = s2 = s3 = &quot;1234567890&quot;;
 s2.erase(5); //删到末尾
 s3.erase(5, 3); //删三个
+iterator erase(iterator first, iterator last); // 删除区间[first,last)上所有字符
 cout&lt;&lt; s1 &lt;&lt;endl;
 cout&lt;&lt; s2 &lt;&lt;endl;
 </code></pre>
 <pre><code class="C++">s2 = s1.substr(6, 6); //左闭，提取6个
 </code></pre>
 <pre><code class="C++">int index = s1.find(s2,5); // 第一个参数为待查找的子字符串，第二个参数为开始查找的位置（下标）；如果不指明，则从第0个字符开始查找。
+</code></pre>
+<pre><code class="C++">   // 这里的6表示下标  5表示长度
+    s1.replace(6,5,&quot;girl&quot;);                    // 结果：hello,girl!
 </code></pre>
 <h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p><strong>begin</strong><br>语法：iterator begin();<br>解释：begin()函数返回一个迭代器,指向字符串的第一个元素.</p>
 <p><strong>end</strong><br>语法：iterator end();<br>解释：end()函数返回一个迭代器，指向字符串的末尾(最后一个字符的下一个位置).</p>
@@ -260,6 +264,11 @@ cout&lt;&lt; s2 &lt;&lt;endl;
 </code></pre>
 <pre><code class="C++">sort(s1.begin(), s1.end()); // 字母序排序
 </code></pre>
+<h3 id="字符串数组排序"><a href="#字符串数组排序" class="headerlink" title="字符串数组排序"></a>字符串数组排序</h3><pre><code>string a[n]; // 方法一
+sort(a, a+n) ;
+vector&lt;string&gt; a; // 方法二
+sort(a.begin(), a.end());
+</code></pre>
 <h2 id="判断一个字符串是否是另一个字符串的排列"><a href="#判断一个字符串是否是另一个字符串的排列" class="headerlink" title="判断一个字符串是否是另一个字符串的排列"></a>判断一个字符串是否是另一个字符串的排列</h2><h3 id="思路一——sort排序"><a href="#思路一——sort排序" class="headerlink" title="思路一——sort排序"></a>思路一——sort排序</h3><p>判断两个字符串能否构成同一个字符串，首要条件便是两者长度相同，只有中这个大条件下才能谈及其它，所以，首先判断两者长度是否相同。其次，我们对两字符串进行<strong>排序</strong>，这样的好处是我们可以直接使用一层循环判断两字符串对应元素是否相同，当发现有不同元素时，直接返回false即可。</p>
 <h3 id="思路二——unordered-map记录字母出现次数"><a href="#思路二——unordered-map记录字母出现次数" class="headerlink" title="思路二——unordered_map记录字母出现次数"></a>思路二——unordered_map记录字母出现次数</h3><ul>
 <li>遍历s1，得到hashmap</li>
@@ -283,7 +292,10 @@ public:
     &#125;
 &#125;;
 </code></pre>
-<h3 id="思路三——建立26-n个字母的vector字典，直接-比较两个vector字典是否相等"><a href="#思路三——建立26-n个字母的vector字典，直接-比较两个vector字典是否相等" class="headerlink" title="思路三——建立26&#x2F;n个字母的vector字典，直接&#x3D;&#x3D;比较两个vector字典是否相等"></a>思路三——建立26&#x2F;n个字母的vector字典，直接&#x3D;&#x3D;比较两个vector字典是否相等</h3><p>见下一题。</p>
+<h3 id="思路三——建立26-n个字母的vector字典，直接-比较两个vector字典是否相等"><a href="#思路三——建立26-n个字母的vector字典，直接-比较两个vector字典是否相等" class="headerlink" title="思路三——建立26&#x2F;n个字母的vector字典，直接&#x3D;&#x3D;比较两个vector字典是否相等"></a>思路三——建立26&#x2F;n个字母的vector字典，直接&#x3D;&#x3D;比较两个vector字典是否相等</h3><ul>
+<li>字典就代表了【组合】，或者说所有的【排列】</li>
+<li>见下一题。</li>
+</ul>
 <h2 id="567-字符串的排列（438基本一样）"><a href="#567-字符串的排列（438基本一样）" class="headerlink" title="567-字符串的排列（438基本一样）"></a>567-字符串的排列（438基本一样）</h2><p><img src="/2023/12/19/%E5%AD%97%E7%AC%A6%E4%B8%B2/2.png" alt="image-20231219172845907"></p>
 <ul>
 <li>采用排列判断的思路3。</li>
@@ -315,6 +327,35 @@ public:
         return false;
     &#125;
 &#125;;
+</code></pre>
+<h2 id="49-字母异位词分组"><a href="#49-字母异位词分组" class="headerlink" title="49-字母异位词分组"></a>49-字母异位词分组</h2><p><img src="/2023/12/19/%E5%AD%97%E7%AC%A6%E4%B8%B2/Users\19263\Desktop\dudulu_blog\source_posts\字符串\image-20240326122700557.png" alt="image-20240326122700557"></p>
+<ul>
+<li>核心是用map建立vector<int>为key的哈希表。</int></li>
+</ul>
+<pre><code class="C++">    vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;&amp; strs) &#123;
+        int n = strs.size();
+        vector&lt;vector&lt;string&gt;&gt; ans;
+        map&lt;vector&lt;int&gt;, vector&lt;string&gt;&gt; map;
+        for (int i = 0; i &lt; n; i++)
+        &#123;
+            vector&lt;int&gt; dic(26, 0); //字典
+            for(char c : strs[i]) &#123;
+                dic[c - &#39;a&#39;] ++;
+            &#125;
+            if(map.count(dic) == 1) &#123;
+                map[dic].push_back(strs[i]);
+            &#125;else &#123;
+                vector&lt;string&gt; t;
+                t.push_back(strs[i]);
+                map[dic] = t;
+            &#125;
+        &#125;
+        for (auto it = map.begin(); it != map.end(); it++)
+        &#123;
+            ans.push_back(it-&gt;second);
+        &#125;
+        return ans;
+    &#125;
 </code></pre>
 <h2 id="vector常用用法补充"><a href="#vector常用用法补充" class="headerlink" title="vector常用用法补充"></a>vector常用用法补充</h2><table>
 <thead>
@@ -400,6 +441,24 @@ public:
 </ul>
 <p><strong>v.erase(p)</strong> ：删除迭代器 p 所指的元素，返回指向被删除元素之后元素的迭代器。</p>
 <p><strong>v.erase(b, e)</strong> ：删除迭代器 b, e 之间的元素，返回指向最后一个被删除元素之后元素的迭代器。</p>
+<pre><code class="C++">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+&#123;
+    std::vector&lt;int&gt; demo&#123; 1,2,3,4,5 &#125;;
+    //删除 2、3
+    auto iter = demo.erase(demo.begin()+1, demo.end() - 2);
+    cout &lt;&lt; &quot;size is :&quot; &lt;&lt; demo.size() &lt;&lt; endl;
+    cout &lt;&lt; &quot;capacity is :&quot; &lt;&lt; demo.capacity() &lt;&lt; endl;
+
+    for (int i = 0; i &lt; demo.size(); i++) &#123;
+        cout &lt;&lt; demo[i] &lt;&lt; &quot; &quot;;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
 <h4 id="头文件-中的算法"><a href="#头文件-中的算法" class="headerlink" title="头文件  中的算法"></a>头文件 <algorithm> 中的算法</algorithm></h4><ul>
 <li>排序&#x2F;逆序</li>
 </ul>
@@ -447,7 +506,7 @@ public:
     &#125;
 &#125;;
 </code></pre>
-<h2 id="22-括号生成"><a href="#22-括号生成" class="headerlink" title="22-括号生成"></a>22-括号生成</h2>
+
     </div>
     
     
